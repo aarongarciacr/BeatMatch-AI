@@ -61,5 +61,119 @@ router.post("/", reqAuth, async (req, res) => {
 });
 
 //Change Playlist Details
+router.put("/:playlistId", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+
+    const { name, description, public } = req.body;
+
+    if (!name) {
+      return res.status(400).json({ message: "Name is required" });
+    }
+
+    const headers = {
+      Authorization: `Bearer ${req.session.access_token}`,
+      "Content-Type": "application/json",
+    };
+
+    const playlistResponse = await axios.put(
+      `${API_BASE_URL}/playlists/${playlistId}`,
+      { name, description, public },
+      { headers }
+    );
+
+    return res.json({
+      message: "Playlist updated successfully",
+      playlist: playlistResponse.data,
+    });
+  } catch (error) {
+    console.error("Error in update playlist:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Get playlist tracks
+router.get("/:playlistId/tracks", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+
+    const headers = {
+      Authorization: `Bearer ${req.session.access_token}`,
+    };
+
+    const playlistResponse = await axios.get(
+      `${API_BASE_URL}/playlists/${playlistId}/tracks`,
+      { headers }
+    );
+
+    return res.json(playlistResponse.data);
+  } catch (error) {
+    console.error("Error in get playlist tracks:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Add Tracks to Playlist
+router.post("/:playlistId/tracks", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+
+    const { uris } = req.body;
+
+    if (!uris) {
+      return res.status(400).json({ message: "Uris are required" });
+    }
+
+    const headers = {
+      Authorization: `Bearer ${req.session.access_token}`,
+      "Content-Type": "application/json",
+    };
+
+    const playlistResponse = await axios.post(
+      `${API_BASE_URL}/playlists/${playlistId}/tracks`,
+      { uris },
+      { headers }
+    );
+
+    return res.json({
+      message: "Tracks added successfully",
+      playlist: playlistResponse.data,
+    });
+  } catch (error) {
+    console.error("Error in add tracks to playlist:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Remove Tracks from Playlist
+router.delete("/:playlistId/tracks", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+
+    const { tracks } = req.body;
+
+    if (!tracks) {
+      return res.status(400).json({ message: "Tracks are required" });
+    }
+
+    const headers = {
+      Authorization: `Bearer ${req.session.access_token}`,
+      "Content-Type": "application/json",
+    };
+
+    const playlistResponse = await axios.delete(
+      `${API_BASE_URL}/playlists/${playlistId}/tracks`,
+      { headers, data: { tracks } }
+    );
+
+    return res.json({
+      message: "Tracks removed successfully",
+      playlist: playlistResponse.data,
+    });
+  } catch (error) {
+    console.error("Error in remove tracks from playlist:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 module.exports = router;
