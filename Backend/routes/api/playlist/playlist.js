@@ -2,6 +2,7 @@ const { reqAuth } = require("../../../utils/reqAuth");
 const express = require("express");
 const axios = require("axios");
 const User = require("../../../models/User");
+const { generatePlaylist } = require("../OpenAI/openai.js");
 
 const router = express.Router();
 
@@ -172,6 +173,55 @@ router.delete("/:playlistId/tracks", reqAuth, async (req, res) => {
     });
   } catch (error) {
     console.error("Error in remove tracks from playlist:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Generate Playlist
+router.post("/generate", reqAuth, async (req, res) => {
+  try {
+    const { mood, activity, favoriteGenres, length } = req.body;
+
+    if (!mood || !activity || !favoriteGenres) {
+      return res
+        .status(400)
+        .json({ message: "Mood, activity and favorite genres are required" });
+    }
+
+    const playlist = await generatePlaylist(
+      mood,
+      activity,
+      favoriteGenres,
+      length
+    );
+
+    for (const song of playlist.songs) {
+      const query = encodeURIComponent(
+        `track:${song.title} artist:${song.artist}`
+      );
+      const url = `${API_BASE_URL}/search?q=${query}&type=track&limit=1`;
+
+      try {
+        const response = await axios.get(url, {
+          headers: { Authorization: `Bearer ${req.session.access_token}` },
+        });
+
+        if (response.data.tracks.items.length > 0) {
+          const track = response.data.tracks.items[0];
+          console.log(`${song.title} - ${song.artist}: ${track.id}`);
+        } else {
+          console.log(`Track not found: ${song.title} - ${song.artist}`);
+        }
+      } catch (error) {
+        console.error(
+          `Error fetching track: ${song.title}`,
+          error.response?.data || error.message
+        );
+      }
+    }
+    return res.json(playlist);
+  } catch (error) {
+    console.error("Error in generate playlist:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
