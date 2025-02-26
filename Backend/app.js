@@ -6,6 +6,15 @@ const passport = require("passport");
 const SpotifyStrategy = require("passport-spotify").Strategy;
 const routes = require("./routes");
 
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("✅ MongoDB Connected Successfully"))
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err.message);
+    process.exit(1); // Exit the process if MongoDB fails to connect
+  });
+
 const app = express();
 
 // Middleware
@@ -35,8 +44,23 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
+passport.serializeUser((user, done) => {
+  done(null, { spotifyId: user.profile.id, accessToken: user.accessToken });
+});
+
+passport.deserializeUser(async (obj, done) => {
+  try {
+    const user = await User.findOne({ spotifyId: obj.spotifyId });
+    if (user) {
+      user.accessToken = obj.accessToken; // Ensure access token is passed
+      done(null, user);
+    } else {
+      done(null, false);
+    }
+  } catch (error) {
+    done(error, null);
+  }
+});
 
 app.use(routes);
 
