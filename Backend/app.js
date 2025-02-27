@@ -18,7 +18,15 @@ mongoose
 const app = express();
 
 // Middleware
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ✅ Allow frontend to access API
+    credentials: true, // ✅ Allow cookies & sessions
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 app.use(
   session({
@@ -51,13 +59,11 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (obj, done) => {
   try {
     const user = await User.findOne({ spotifyId: obj.spotifyId });
-    if (user) {
-      user.accessToken = obj.accessToken; // Ensure access token is passed
-      done(null, user);
-    } else {
-      done(null, false);
-    }
+    if (!user) return done(null, false);
+    user.accessToken = obj.accessToken;
+    done(null, user);
   } catch (error) {
+    console.error("Error in deserializing user:", error);
     done(error, null);
   }
 });
