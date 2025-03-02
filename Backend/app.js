@@ -20,10 +20,8 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ Allow frontend to access API
-    credentials: true, // ✅ Allow cookies & sessions
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 

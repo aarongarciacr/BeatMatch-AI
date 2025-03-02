@@ -61,6 +61,27 @@ router.post("/", reqAuth, async (req, res) => {
   }
 });
 
+//Get Playlist Details
+router.get("/:playlistId", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+
+    const headers = {
+      Authorization: `Bearer ${req.session.access_token}`,
+    };
+
+    const playlistResponse = await axios.get(
+      `${API_BASE_URL}/playlists/${playlistId}`,
+      { headers }
+    );
+
+    return res.json(playlistResponse.data);
+  } catch (error) {
+    console.error("Error in get playlist details:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 //Change Playlist Details
 router.put("/:playlistId", reqAuth, async (req, res) => {
   try {
@@ -251,11 +272,9 @@ router.post("/generate", reqAuth, async (req, res) => {
     }
 
     if (trackUris.length === 0) {
-      return res
-        .status(500)
-        .json({
-          message: "No tracks found on Spotify. Playlist cannot be created.",
-        });
+      return res.status(500).json({
+        message: "No tracks found on Spotify. Playlist cannot be created.",
+      });
     }
 
     // Step 4: Add tracks to the new playlist

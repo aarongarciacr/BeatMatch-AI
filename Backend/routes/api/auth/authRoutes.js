@@ -89,10 +89,11 @@ router.get("/callback", async (req, res) => {
       { upsert: true }
     );
 
+    // Redirect with success parameter
     return res.redirect("http://localhost:5173/dashboard");
   } catch (error) {
     console.error("Auth callback error:", error);
-    return res.status(500).send("Authentication failed");
+    return res.redirect("http://localhost:5173/?loginSuccess=false");
   }
 });
 
