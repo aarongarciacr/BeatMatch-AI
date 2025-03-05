@@ -4,6 +4,7 @@ const GET_PLAYLIST_DETAILS = "playlists/GET_PLAYLIST_DETAILS";
 const CREATE_PLAYLIST = "playlists/CREATE_PLAYLIST";
 const UPDATE_PLAYLIST = "playlists/UPDATE_PLAYLIST";
 const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
+const GENERATE_PLAYLIST = "playlists/GENERATE_PLAYLIST";
 
 // Action Creators
 const getPlaylists = (playlists) => ({
@@ -29,6 +30,11 @@ const updatePlaylist = (playlist) => ({
 const deletePlaylist = (playlistId) => ({
   type: DELETE_PLAYLIST,
   playlistId,
+});
+
+const generatePlaylist = (playlist) => ({
+  type: GENERATE_PLAYLIST,
+  playlist,
 });
 
 // Thunks
@@ -67,6 +73,21 @@ export const fetchCreatePlaylist = (playlistData) => async (dispatch) => {
   if (response.ok) {
     const playlist = await response.json();
     dispatch(createPlaylist(playlist));
+    return playlist;
+  }
+};
+
+export const fetchGeneratePlaylist = (playlistData) => async (dispatch) => {
+  const response = await fetch("/api/playlists/generate", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(playlistData),
+  });
+
+  if (response.ok) {
+    const playlist = await response.json();
+    dispatch(generatePlaylist(playlist));
     return playlist;
   }
 };
@@ -111,6 +132,11 @@ const playlistReducer = (state = initialState, action) => {
         items: state.items.filter(
           (playlist) => playlist.id !== action.playlistId
         ),
+      };
+    case GENERATE_PLAYLIST:
+      return {
+        ...state,
+        items: [...state.items, action.playlist],
       };
     default:
       return state;

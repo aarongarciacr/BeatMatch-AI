@@ -22,12 +22,14 @@ const Playlists = () => {
   }
 
   return (
-    <div>
-      <h1>Playlists</h1>
-      {playlists &&
-        playlists.map((playlist) => (
-          <PlaylistCard key={playlist.id} playlist={playlist} />
-        ))}
+    <div className="h-full pt-[100px] w-full flex flex-col bg-[#111827] gap-5">
+      <div className="container mx-auto flex flex-col gap-5">
+        <h1 className="text-4xl font-bold text-white ">Playlists</h1>
+        {playlists &&
+          playlists.map((playlist) => (
+            <PlaylistCard key={playlist.id} playlist={playlist} />
+          ))}
+      </div>
     </div>
   );
 };
