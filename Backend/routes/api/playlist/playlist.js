@@ -201,26 +201,25 @@ router.delete("/:playlistId/tracks", reqAuth, async (req, res) => {
 //Generate Playlist
 router.post("/generate", reqAuth, async (req, res) => {
   try {
-    const { mood, activity, favoriteGenres, length } = req.body;
+    const { mood, activity, favoriteGenresAndArtists, length } = req.body;
 
-    if (!mood || !activity || !favoriteGenres) {
-      return res
-        .status(400)
-        .json({ message: "Mood, activity, and favorite genres are required" });
+    if (!mood || !activity || !favoriteGenresAndArtists) {
+      return res.status(400).json({
+        message: "Mood, activity, genres and/or artists are required",
+      });
     }
 
-    // Step 1: Generate playlist using OpenAI
-    const playlist = await generatePlaylist(
+    // Step 1: Generate initial playlist using OpenAI
+    let playlist = await generatePlaylist(
       mood,
       activity,
-      favoriteGenres,
+      favoriteGenresAndArtists,
       length
     );
     if (!playlist || !playlist.songs || playlist.songs.length === 0) {
       return res.status(500).json({ message: "Failed to generate playlist" });
     }
 
-    // Fetch user from database
     const user = await User.findOne({ spotifyId: req.user.spotifyId });
     if (!user) {
       return res
@@ -245,10 +244,11 @@ router.post("/generate", reqAuth, async (req, res) => {
     );
 
     const newPlaylistId = playlistResponse.data.id;
-    console.log("Created Spotify Playlist:", newPlaylistId);
 
-    // Step 3: Search for tracks on Spotify & collect their track URIs
-    const trackUris = [];
+    // Step 3: Search for tracks on Spotify & collect URIs
+    let trackUris = [];
+    let missingSongs = []; // Tracks that weren't found
+
     for (const song of playlist.songs) {
       const query = encodeURIComponent(
         `track:${song.title} artist:${song.artist}`
@@ -261,7 +261,7 @@ router.post("/generate", reqAuth, async (req, res) => {
           const track = response.data.tracks.items[0];
           trackUris.push(track.uri);
         } else {
-          console.log(`Track not found: ${song.title} - ${song.artist}`);
+          missingSongs.push(song); // Keep track of unfound songs
         }
       } catch (error) {
         console.error(
@@ -271,20 +271,56 @@ router.post("/generate", reqAuth, async (req, res) => {
       }
     }
 
+    // Step 4: If there are missing songs, request replacements from OpenAI
+    if (missingSongs.length > 0) {
+      console.log(`Requesting ${missingSongs.length} replacement songs...`);
+
+      const replacementPlaylist = await generatePlaylist(
+        mood,
+        activity,
+        favoriteGenresAndArtists,
+        missingSongs.length // Only fetch replacements for the missing tracks
+      );
+
+      for (const song of replacementPlaylist.songs) {
+        const query = encodeURIComponent(
+          `track:${song.title} artist:${song.artist}`
+        );
+        const url = `${API_BASE_URL}/search?q=${query}&type=track&limit=1`;
+
+        try {
+          const response = await axios.get(url, { headers });
+          if (response.data.tracks.items.length > 0) {
+            const track = response.data.tracks.items[0];
+            trackUris.push(track.uri); // Add found replacements to the list
+          } else {
+            console.log(
+              `Replacement track not found: ${song.title} - ${song.artist}`
+            );
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching replacement track: ${song.title}`,
+            error.response?.data || error.message
+          );
+        }
+      }
+    }
+
+    // Step 5: Make sure we have at least some tracks
     if (trackUris.length === 0) {
       return res.status(500).json({
         message: "No tracks found on Spotify. Playlist cannot be created.",
       });
     }
 
-    // Step 4: Add tracks to the new playlist
+    // Step 6: Add tracks to Spotify playlist
     await axios.post(
       `${API_BASE_URL}/playlists/${newPlaylistId}/tracks`,
       { uris: trackUris },
       { headers }
     );
 
-    // Return the created playlist details
     return res.json({
       message: "AI-generated playlist saved to Spotify",
       playlistUrl: playlistResponse.data.external_urls.spotify,
@@ -293,9 +329,10 @@ router.post("/generate", reqAuth, async (req, res) => {
     });
   } catch (error) {
     console.error("Error in generating and saving playlist:", error);
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.response?.data });
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.response?.data,
+    });
   }
 });
 

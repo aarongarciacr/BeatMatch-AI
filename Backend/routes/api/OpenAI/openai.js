@@ -7,7 +7,12 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const generatePlaylist = async (mood, activity, favoriteGenres, length) => {
+const generatePlaylist = async (
+  mood,
+  activity,
+  favoriteGenresAndArtists,
+  length
+) => {
   try {
     if (!length || isNaN(length) || length <= 0) {
       length = 10; // Default to 10 songs if input is missing or invalid
@@ -16,14 +21,15 @@ const generatePlaylist = async (mood, activity, favoriteGenres, length) => {
     const prompt = `You are a playlist generator AI. Create a playlist with exactly ${length} songs based on:
     - Mood: "${mood}"
     - Activity: "${activity}"
-    - Genres: ${favoriteGenres.join(", ")}
+    - Favorite Genres And Artist: ${favoriteGenresAndArtists.join(", ")}
 
     ### Instructions:
-    1️ **Generate a creative funny playlist name** that reflects the user's mood and activity.
-    2️ **Write a short, sassy, and funny engaging description** (1-2 sentences) about the playlist.
-    3️ **Generate exactly ${length} songs** that match the user's preferences.
-    4️ If you cannot find enough songs, **repeat similar tracks until the list is exactly ${length} long**.
-    5️ **Return the result as a JSON object** in the following format:
+    1 **Generate a creative funny playlist name** that reflects the user's mood and activity.
+    2 **Write a short, sassy, and funny engaging description** (1-2 sentences) about the playlist.
+    3 **Generate exactly ${length} songs** that match the user's preferences.
+    4 **Verify the song exists and it's a real song** don't make up any song.
+    5 If you cannot find enough songs, **repeat similar tracks until the list is exactly ${length} long**.
+    6 **Return the result as a JSON object** in the following format:
 
     {
       "playlist_name": "Generated Playlist Name",
@@ -33,7 +39,7 @@ const generatePlaylist = async (mood, activity, favoriteGenres, length) => {
         ...
       ]
     `;
-
+    console.log("prompt", prompt);
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "system", content: prompt }],

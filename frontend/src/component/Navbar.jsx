@@ -1,17 +1,27 @@
 import { useSelector } from "react-redux";
 import WhiteLogo from "../assets/Primary_Logo_White_CMYK.svg";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
-
+  const navigate = useNavigate();
   const handleLogin = () => {
     window.location.href = "/api/auth/login"; // Redirects the user to Spotify login
+  };
+
+  const handleNavigate = () => {
+    navigate("/");
   };
 
   return (
     <nav className="navbar h-[80px] w-dvw bg-neutral-900 text-slate-200 fixed top-0 z-50">
       <div className="container flex h-full flex-row justify-between items-center m-auto  ">
-        <h1 className="font-extrabold text-2xl">BeatMatch AI</h1>
+        <h1
+          className="font-extrabold text-2xl cursor-pointer"
+          onClick={handleNavigate}
+        >
+          BeatMatch AI
+        </h1>
         {user ? (
           <div className="flex items-center">
             <img

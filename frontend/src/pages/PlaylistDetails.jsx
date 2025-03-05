@@ -15,26 +15,23 @@ const PlaylistDetails = () => {
 
   useEffect(() => {
     dispatch(fetchPlaylistDetails(playlistId));
-  }, [dispatch]);
+  }, [dispatch, playlistId]);
 
   return (
-    <div>
-      <h1>Playlist Details</h1>
-      {playlist && (
-        // <div>
-        //   <h2>{playlist.name}</h2>
-        //   <p>{playlist.description}</p>
-        //   {playlist.images?.[0]?.url && (
-        //     <img src={playlist.images[0].url} alt={playlist.name} />
-        //   )}
-        // </div>
-        <>
-          <PlaylistCard playlist={playlist} />
-          {playlist.tracks.items.map((track) => (
-            <TrackCard key={track.track.id} track={track.track} />
-          ))}
-        </>
-      )}
+    <div className="h-full pt-[100px] w-full flex flex-col bg-[#111827] gap-5">
+      <div className="container mx-auto flex flex-col gap-5">
+        <h1 className="text-4xl font-bold text-white">Playlist Details</h1>
+        {playlist && (
+          <>
+            <PlaylistCard playlist={playlist} />
+            <div className="bg-[#18212f] p-5 rounded-3xl">
+              {playlist.tracks.items.map((track) => (
+                <TrackCard key={track.track.id} track={track.track} />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

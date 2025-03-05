@@ -128,7 +128,7 @@ const Dashboard = () => {
       </div>
 
       {/* Playlist Creation Section */}
-      <div className="h-full w-[70%] m-auto p-5 flex flex-col gap-5 bg-[#1f2937] rounded-3xl">
+      <div className="h-full w-[70%] m-auto p-5 flex flex-col gap-5 bg-[#1f2937] rounded-3xl mb-10">
         <p className="text-slate-300 font-bold text-2xl">
           Let's create your perfect playlist for today.
         </p>
