@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../redux/authSlice";
 import MoodCard from "../component/MoodCard";
+import { useNavigate } from "react-router-dom";
+import SearchBar from "../component/SearchBar";
 
 const moods = [
   {
@@ -69,16 +71,24 @@ const activities = [
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user); // <-- Get user from Redux
+  const user = useSelector((state) => state.auth?.user); // <-- Get user from Redux
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(fetchUserProfile());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user === null) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="h-[100vh] pt-[100px] w-[100%] flex flex-col bg-[#111827] gap-5">
       <div className="h-[20em] p-5 rounded-3xl bg-[#1F2937] w-[70%] m-auto flex flex-col gap-2">
         <h1 className="text-3xl text-slate-200 font-bold">
-          Welcome back, {user.display_name.split(" ")[0]}!
+          Welcome back, {user?.display_name?.split(" ")[0]}!
         </h1>
         {user && (
           <div className="text-slate-300 font-bold">
@@ -116,11 +126,7 @@ const Dashboard = () => {
         </div>
         <div className="flex flex-col gap-5">
           <p className="text-slate-300 font-bold">Favorite Artists & Genres</p>
-          <input
-            type="text"
-            placeholder="Search for artists & genres"
-            className="w-full p-2 rounded-lg"
-          />
+          <SearchBar />
         </div>
       </div>
     </div>
