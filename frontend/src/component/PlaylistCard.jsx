@@ -11,10 +11,10 @@ const PlaylistCard = ({ playlist }) => {
     window.open(playlist.external_urls.spotify, "_blank");
   };
 
-  const playlistDuration = playlist?.tracks?.items?.reduce(
-    (acc, item) => acc + item.track.duration_ms,
-    0
-  );
+  // const playlistDuration = playlist?.tracks?.items?.reduce(
+  //   (acc, item) => acc + item.track.duration_ms,
+  //   0
+  // );
 
   return (
     <div
@@ -31,8 +31,7 @@ const PlaylistCard = ({ playlist }) => {
       <div className="flex flex-col  justify-evenly px-5 pb-5 flex-1">
         <h3 className="text-[1.15rem] pb-1">{playlist.name}</h3>
         <p className=" text-slate-400 pb-2 text-[0.9rem]">
-          {playlist.tracks.total} songs • {Math.round(playlistDuration / 60000)}{" "}
-          minutes
+          {playlist.tracks.total} tracks
         </p>
         <button
           className="bg-green-500 px-5 py-2 rounded-lg w-fit"

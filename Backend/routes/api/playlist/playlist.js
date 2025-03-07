@@ -10,15 +10,20 @@ const API_BASE_URL = "https://api.spotify.com/v1";
 
 // GET users playlists
 router.get("/", reqAuth, async (req, res) => {
+  const { limit = 10, offset = 0 } = req.query;
+
   let headers = {
     Authorization: `Bearer ${req.session.access_token}`,
   };
 
-  let response = await axios.get(`${API_BASE_URL}/me/playlists`, {
-    headers: headers,
-  });
+  let response = await axios.get(
+    `${API_BASE_URL}/me/playlists?limit=${limit}&offset=${offset}`,
+    {
+      headers: headers,
+    }
+  );
 
-  let playlists = response.data.items;
+  let playlists = response.data;
   return res.json(playlists);
 });
 

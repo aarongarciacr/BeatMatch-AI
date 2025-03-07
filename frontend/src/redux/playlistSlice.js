@@ -5,6 +5,7 @@ const CREATE_PLAYLIST = "playlists/CREATE_PLAYLIST";
 const UPDATE_PLAYLIST = "playlists/UPDATE_PLAYLIST";
 const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
 const GENERATE_PLAYLIST = "playlists/GENERATE_PLAYLIST";
+const SET_PAGINATION = "playlists/SET_PAGINATION";
 
 // Action Creators
 const getPlaylists = (playlists) => ({
@@ -37,18 +38,36 @@ const generatePlaylist = (playlist) => ({
   playlist,
 });
 
-// Thunks
-export const fetchUserPlaylists = () => async (dispatch) => {
-  const response = await fetch("/api/playlists", {
-    credentials: "include",
-  });
+const setPagination = (pagination) => ({
+  type: SET_PAGINATION,
+  pagination,
+});
 
-  if (response.ok) {
-    const playlists = await response.json();
-    dispatch(getPlaylists(playlists));
-    return playlists;
-  }
-};
+// Thunks
+export const fetchUserPlaylists =
+  ({ limit = 10, offset = 0 }) =>
+  async (dispatch) => {
+    const response = await fetch(
+      `/api/playlists?limit=${limit}&offset=${offset}`,
+      {
+        credentials: "include",
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(getPlaylists(data.items));
+      dispatch(
+        setPagination({
+          next: data.next,
+          previous: data.previous,
+          total: data.total,
+        })
+      );
+      return data;
+    } else {
+      console.error("Failed to fetch playlists");
+    }
+  };
 
 export const fetchPlaylistDetails = (playlistId) => async (dispatch) => {
   const response = await fetch(`/api/playlists/${playlistId}`, {
@@ -95,8 +114,14 @@ export const fetchGeneratePlaylist = (playlistData) => async (dispatch) => {
 // Initial State
 const initialState = {
   items: [],
+  singlePlaylist: null,
   status: "idle",
   error: null,
+  pagination: {
+    next: null,
+    previous: null,
+    total: 0,
+  },
 };
 
 // Reducer
@@ -115,6 +140,7 @@ const playlistReducer = (state = initialState, action) => {
         status: "succeeded",
       };
     case CREATE_PLAYLIST:
+    case GENERATE_PLAYLIST:
       return {
         ...state,
         items: [...state.items, action.playlist],
@@ -133,10 +159,10 @@ const playlistReducer = (state = initialState, action) => {
           (playlist) => playlist.id !== action.playlistId
         ),
       };
-    case GENERATE_PLAYLIST:
+    case SET_PAGINATION:
       return {
         ...state,
-        items: [...state.items, action.playlist],
+        pagination: action.pagination,
       };
     default:
       return state;
