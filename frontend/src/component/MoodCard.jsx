@@ -2,7 +2,7 @@ const MoodCard = ({ mood, onClick, isSelected }) => {
   return (
     <div
       className={`w-[10em] h-[5em] rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors 
-        ${isSelected ? "bg-green-500" : "bg-[#374151]"} active:bg-slate-500`}
+        ${isSelected ? "bg-green-500" : "bg-[#374151] hover:bg-[#353f4e]"} `}
       onClick={onClick}
     >
       <p className="text-white text-2xl">{mood.icon}</p>

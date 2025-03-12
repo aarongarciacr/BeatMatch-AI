@@ -119,7 +119,9 @@ const SearchBar = ({ onSelectedItemsChange }) => {
       <div className="flex gap-4 mb-2">
         <button
           className={`px-4 py-2 rounded-lg ${
-            searchType === "artist" ? "bg-green-500 text-white" : "bg-gray-200"
+            searchType === "artist"
+              ? "bg-green-500 text-white"
+              : "bg-gray-200 transition-colors hover:bg-gray-300"
           }`}
           onClick={() => setSearchType("artist")}
         >
