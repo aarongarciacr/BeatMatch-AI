@@ -40,6 +40,15 @@ const Playlists = () => {
     }
   };
 
+  const handleFirstPage = () => {
+    setOffset(0);
+  };
+
+  const handleLastPage = () => {
+    const lastOffset = Math.max(total - limit, 0);
+    setOffset(lastOffset);
+  };
+
   if (status === "loading") {
     return <div className="text-white text-center mt-10">Loading...</div>;
   }
@@ -69,6 +78,12 @@ const Playlists = () => {
 
         {/* Pagination Controls */}
         <div className="mt-5 flex justify-center gap-5">
+          <p
+            onClick={handleFirstPage}
+            className="cursor-pointer font-bold text-slate-400"
+          >
+            First
+          </p>
           <button
             className={`px-4 py-2 rounded ${
               previous
@@ -92,6 +107,12 @@ const Playlists = () => {
           >
             Next
           </button>
+          <p
+            onClick={handleLastPage}
+            className="cursor-pointer font-bold text-slate-400"
+          >
+            Last
+          </p>
         </div>
       </div>
 
