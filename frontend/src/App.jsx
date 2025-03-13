@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Playlists from "./pages/Playlists";
 import PlaylistDetails from "./pages/PlaylistDetails";
 import { useEffect } from "react";
+import GeneratedPlaylistDetails from "./pages/GeneratedPlaylistDetails";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/playlists/:id",
         element: <PlaylistDetails />,
+      },
+      {
+        path: "/playlists/BM/:id",
+        element: <GeneratedPlaylistDetails />,
       },
     ],
   },

@@ -371,8 +371,8 @@ const Dashboard = () => {
       }
 
       const data = await response.json();
-      alert(`Playlist created: ${data.playlistUrl}`);
-      navigate("/playlists");
+      alert(`Playlist created: ${data.playlist.name}`);
+      navigate(`/playlists/BM/${data.playlist.id}`);
     } catch (error) {
       console.error("Error generating playlist:", error);
       alert("Failed to generate playlist");

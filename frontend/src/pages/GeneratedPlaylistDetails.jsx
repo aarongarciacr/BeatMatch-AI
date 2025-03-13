@@ -1,4 +1,4 @@
-import { fetchPlaylistDetails } from "../redux/playlistSlice";
+import { fetchGetGeneratedPlaylist } from "../redux/playlistSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import PlaylistCard2 from "../component/PlaylistCard2";
 import TrackCard from "../component/TrackCard";
 
-const PlaylistDetails = () => {
+const GeneratedPlaylistDetails = () => {
   const dispatch = useDispatch();
   const playlistId = useParams().id;
   const playlist = useSelector((state) => state.playlists?.singlePlaylist);
@@ -14,7 +14,7 @@ const PlaylistDetails = () => {
   console.log("playlist", playlist);
 
   useEffect(() => {
-    dispatch(fetchPlaylistDetails(playlistId));
+    dispatch(fetchGetGeneratedPlaylist(playlistId));
   }, [dispatch, playlistId]);
 
   return (
@@ -26,7 +26,7 @@ const PlaylistDetails = () => {
             <>
               <PlaylistCard2 playlist={playlist} />
               <div className=" p-5 rounded-3xl">
-                {playlist.tracks.items.map((track) => (
+                {playlist.tracks.map((track) => (
                   <TrackCard key={track.track.id} track={track.track} />
                 ))}
               </div>
@@ -38,4 +38,4 @@ const PlaylistDetails = () => {
   );
 };
 
-export default PlaylistDetails;
+export default GeneratedPlaylistDetails;
