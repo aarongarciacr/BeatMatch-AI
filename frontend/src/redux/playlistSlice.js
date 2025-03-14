@@ -7,6 +7,7 @@ const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
 const GENERATE_PLAYLIST = "playlists/GENERATE_PLAYLIST";
 const SET_PAGINATION = "playlists/SET_PAGINATION";
 const GET_GENERATED_PLAYLIST = "playlists/GET_GENERATED_PLAYLIST";
+const GET_TRACKS = "playlists/GET_TRACKS";
 
 // Action Creators
 const getPlaylists = (playlists) => ({
@@ -47,6 +48,11 @@ const setPagination = (pagination) => ({
 const getGeneratedPlaylist = (playlist) => ({
   type: GET_GENERATED_PLAYLIST,
   playlist,
+});
+
+const getTracks = (tracks) => ({
+  type: GET_TRACKS,
+  tracks,
 });
 
 // Thunks
@@ -129,6 +135,18 @@ export const fetchGetGeneratedPlaylist = (playlistId) => async (dispatch) => {
   }
 };
 
+export const fetchGetTracks = (playlistId) => async (dispatch) => {
+  const response = await fetch(`/api/playlists/db/${playlistId}/tracks`, {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const tracks = await response.json();
+    dispatch(getTracks(tracks));
+    return tracks;
+  }
+};
+
 // Initial State
 const initialState = {
   items: [],
@@ -186,6 +204,16 @@ const playlistReducer = (state = initialState, action) => {
       return {
         ...state,
         singlePlaylist: action.playlist,
+      };
+    case GET_TRACKS:
+      return {
+        ...state,
+        singlePlaylist: state.singlePlaylist
+          ? {
+              ...state.singlePlaylist,
+              tracks: action.tracks,
+            }
+          : null,
       };
     default:
       return state;

@@ -15,6 +15,7 @@ const PlaylistSchema = new mongoose.Schema({
       uri: String,
       title: String,
       artist: String,
+      spotifyId: String,
     },
   ],
   createdAt: {

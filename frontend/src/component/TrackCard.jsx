@@ -1,6 +1,4 @@
 const TrackCard = ({ track }) => {
-  console.log("track", track);
-
   const handleDuration = (duration) => {
     const hours = Math.floor(duration / 3600000);
     const minutes = Math.floor((duration % 3600000) / 60000);
