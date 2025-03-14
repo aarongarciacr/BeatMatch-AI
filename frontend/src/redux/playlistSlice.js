@@ -142,6 +142,8 @@ export const fetchGetTracks = (playlistId) => async (dispatch) => {
 
   if (response.ok) {
     const tracks = await response.json();
+    console.log("fetchGetTracks", tracks);
+
     dispatch(getTracks(tracks));
     return tracks;
   }

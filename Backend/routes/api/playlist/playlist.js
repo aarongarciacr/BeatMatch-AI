@@ -222,6 +222,49 @@ router.get("/db/:playlistId", reqAuth, async (req, res) => {
   }
 });
 
+//Get playlists' tracks on Spotify
+router.get("/db/:playlistId/tracks", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+
+    const playlist = await Playlist.findById(playlistId);
+
+    if (!playlist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+
+    const user = await User.findOne({ spotifyId: playlist.userId });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const headers = {
+      Authorization: `Bearer ${user.accessToken}`,
+    };
+
+    let tracks = [];
+    for (const track of playlist.tracks) {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/tracks/${track.spotifyId}`,
+          { headers }
+        );
+        tracks.push(response.data);
+      } catch (error) {
+        console.error(
+          `Error fetching track: ${track.title}`,
+          error.response?.data || error.message
+        );
+      }
+    }
+
+    return res.json(tracks);
+  } catch (error) {
+    console.error("Error in get playlist tracks from database:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 //Generate Playlist
 router.post("/generate", reqAuth, async (req, res) => {
   try {
@@ -278,6 +321,7 @@ router.post("/generate", reqAuth, async (req, res) => {
             uri: track.uri,
             title: song.title,
             artist: song.artist,
+            spotifyId: track.id,
           });
         } else {
           missingSongs.push(song);
@@ -313,6 +357,7 @@ router.post("/generate", reqAuth, async (req, res) => {
               uri: track.uri,
               title: song.title,
               artist: song.artist,
+              spotifyId: track.id,
             });
           }
         } catch (error) {

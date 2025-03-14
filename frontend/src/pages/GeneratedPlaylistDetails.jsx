@@ -19,6 +19,7 @@ const GeneratedPlaylistDetails = () => {
   );
 
   console.log("playlist", playlist);
+  console.log("tracks", tracks);
 
   useEffect(() => {
     const fetchData = async () => {
