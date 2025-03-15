@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PlaylistCard2 from "../component/PlaylistCard2";
 import TrackCard from "../component/TrackCard";
+import PlaylistCard3 from "../component/PlaylistCard3";
 
 const GeneratedPlaylistDetails = () => {
   const dispatch = useDispatch();
@@ -17,9 +18,6 @@ const GeneratedPlaylistDetails = () => {
   const tracks = useSelector(
     (state) => state.playlists?.singlePlaylist?.tracks || []
   );
-
-  console.log("playlist", playlist);
-  console.log("tracks", tracks);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +45,7 @@ const GeneratedPlaylistDetails = () => {
           <h1 className="text-4xl font-bold text-white">Playlist Details</h1>
           {playlist && (
             <>
-              <PlaylistCard2 playlist={playlist} />
+              <PlaylistCard3 playlist={playlist} />
               <div className="p-5 rounded-3xl">
                 {tracks && tracks.length > 0 ? (
                   tracks.map((track) => (
