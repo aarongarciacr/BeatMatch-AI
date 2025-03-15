@@ -58,7 +58,7 @@ const Playlists = () => {
   }
 
   return (
-    <div className="h-full pt-[100px] w-full bg-[#111827] gap-5">
+    <div className="h-full pt-[100px] w-full bg-[#111827] gap-5 min-h-screen">
       <div className="container mx-auto flex flex-col gap-5 pb-10">
         <h1 className="text-4xl font-bold text-white">My Playlists</h1>
 

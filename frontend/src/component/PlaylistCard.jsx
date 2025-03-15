@@ -31,7 +31,7 @@ const PlaylistCard = ({ playlist }) => {
       <div className="flex flex-col  justify-evenly px-5 pb-5 flex-1">
         <h3 className="text-[1.15rem] pb-1">{playlist.name}</h3>
         <p className=" text-slate-400 pb-2 text-[0.9rem]">
-          {playlist.tracks.total} tracks
+          {playlist?.tracks?.total} tracks
         </p>
         <button
           className="bg-green-500 px-5 py-2 rounded-lg w-fit"
