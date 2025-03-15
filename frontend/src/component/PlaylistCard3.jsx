@@ -1,9 +1,24 @@
-const PlaylistCard3 = ({ playlist }) => {
-  console.log("PlaylistCard3", playlist.tracks);
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchAddTracks, fetchCreatePlaylist } from "../redux/playlistSlice";
 
-  const handleSpotifyClick = (e) => {
+const PlaylistCard3 = ({ playlist }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSpotifyClick = async (e) => {
     e.stopPropagation();
-    window.open(playlist.external_urls.spotify, "_blank");
+    try {
+      const trackUris = playlist.tracks.map((track) => track.uri);
+
+      const newPlaylist = await dispatch(fetchCreatePlaylist(playlist));
+      const playlistId = newPlaylist.playlist.id;
+      if (playlistId) {
+        await dispatch(fetchAddTracks(playlistId, trackUris));
+      }
+      navigate(`/playlists/${playlistId}`);
+    } catch (error) {
+      console.error("Error creating playlist:", error);
+    }
   };
 
   const playlistDuration = playlist?.tracks?.reduce(

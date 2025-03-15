@@ -59,7 +59,7 @@ router.post("/", reqAuth, async (req, res) => {
 
     res.json({
       message: "Playlist created successfully",
-      plalist: playlistResponse.data,
+      playlist: playlistResponse.data,
     });
   } catch (error) {
     console.error("Error in create playlist:", error);

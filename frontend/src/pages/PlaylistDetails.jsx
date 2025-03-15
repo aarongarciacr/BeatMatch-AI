@@ -26,7 +26,7 @@ const PlaylistDetails = () => {
             <>
               <PlaylistCard2 playlist={playlist} />
               <div className=" p-5 rounded-3xl">
-                {playlist.tracks.items.map((track) => (
+                {playlist?.tracks?.items?.map((track) => (
                   <TrackCard key={track.track.id} track={track.track} />
                 ))}
               </div>

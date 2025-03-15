@@ -8,6 +8,7 @@ const GENERATE_PLAYLIST = "playlists/GENERATE_PLAYLIST";
 const SET_PAGINATION = "playlists/SET_PAGINATION";
 const GET_GENERATED_PLAYLIST = "playlists/GET_GENERATED_PLAYLIST";
 const GET_TRACKS = "playlists/GET_TRACKS";
+const ADD_TRACKS = "playlists/ADD_TRACKS";
 
 // Action Creators
 const getPlaylists = (playlists) => ({
@@ -52,6 +53,11 @@ const getGeneratedPlaylist = (playlist) => ({
 
 const getTracks = (tracks) => ({
   type: GET_TRACKS,
+  tracks,
+});
+
+const addTracks = (tracks) => ({
+  type: ADD_TRACKS,
   tracks,
 });
 
@@ -145,6 +151,25 @@ export const fetchGetTracks = (playlistId) => async (dispatch) => {
 
     dispatch(getTracks(tracks));
     return tracks;
+  }
+};
+
+export const fetchAddTracks = (playlistId, trackUris) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/playlists/${playlistId}/tracks`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uris: trackUris }),
+    });
+
+    if (response.ok) {
+      const tracks = await response.json();
+      dispatch(addTracks(tracks));
+      return tracks;
+    }
+  } catch (error) {
+    console.error("Error adding tracks:", error);
   }
 };
 
