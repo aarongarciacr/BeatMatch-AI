@@ -19,7 +19,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-smile"
+        className="lucide lucide-smile"
       >
         <circle cx="12" cy="12" r="10" />
         <path d="M8 14s1.5 2 4 2 4-2 4-2" />
@@ -41,7 +41,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-heart-crack"
+        className="lucide lucide-heart-crack"
       >
         <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
         <path d="m12 13-1-1 2-2-3-3 2-2" />
@@ -61,7 +61,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-cloud"
+        className="lucide lucide-cloud"
       >
         <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
       </svg>
@@ -80,7 +80,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-laugh"
+        className="lucide lucide-laugh"
       >
         <circle cx="12" cy="12" r="10" />
         <path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z" />
@@ -102,7 +102,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-heart"
+        className="lucide lucide-heart"
       >
         <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
       </svg>
@@ -121,7 +121,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-zap"
+        className="lucide lucide-zap"
       >
         <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
       </svg>
@@ -140,7 +140,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-biceps-flexed"
+        className="lucide lucide-biceps-flexed"
       >
         <path d="M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1" />
         <path d="M15 14a5 5 0 0 0-7.584 2" />
@@ -161,7 +161,7 @@ const moods = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-tent-tree"
+        className="lucide lucide-tent-tree"
       >
         <circle cx="4" cy="4" r="2" />
         <path d="m14 5 3-3 3 3" />
@@ -189,7 +189,7 @@ const activities = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-dumbbell"
+        className="lucide lucide-dumbbell"
       >
         <path d="M14.4 14.4 9.6 9.6" />
         <path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z" />
@@ -212,7 +212,7 @@ const activities = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-notebook-pen"
+        className="lucide lucide-notebook-pen"
       >
         <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" />
         <path d="M2 6h4" />
@@ -236,7 +236,7 @@ const activities = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-party-popper"
+        className="lucide lucide-party-popper"
       >
         <path d="M5.8 11.3 2 22l10.7-3.79" />
         <path d="M4 3h.01" />
@@ -263,7 +263,7 @@ const activities = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-scan-eye"
+        className="lucide lucide-scan-eye"
       >
         <path d="M3 7V5a2 2 0 0 1 2-2h2" />
         <path d="M17 3h2a2 2 0 0 1 2 2v2" />
@@ -287,7 +287,7 @@ const activities = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-bed-double"
+        className="lucide lucide-bed-double"
       >
         <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
         <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
@@ -309,7 +309,7 @@ const activities = [
         stroke-width="1.3333333333333333"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-car"
+        className="lucide lucide-car"
       >
         <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
         <circle cx="7" cy="17" r="2" />
@@ -512,7 +512,7 @@ const Dashboard = () => {
                 stroke-width="1.3333333333333333"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="lucide lucide-wand-sparkles"
+                className="lucide lucide-wand-sparkles"
               >
                 <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72" />
                 <path d="m14 7 3 3" />
