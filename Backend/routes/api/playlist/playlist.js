@@ -204,6 +204,17 @@ router.delete("/:playlistId/tracks", reqAuth, async (req, res) => {
   }
 });
 
+//Get all playlist from database
+router.get("/db", reqAuth, async (req, res) => {
+  try {
+    const playlists = await Playlist.find({ userId: req.user.spotifyId });
+    return res.json(playlists);
+  } catch (error) {
+    console.error("Error in get all playlists from database:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 //Get playlist from database
 router.get("/db/:playlistId", reqAuth, async (req, res) => {
   try {
