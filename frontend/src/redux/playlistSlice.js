@@ -9,6 +9,7 @@ const SET_PAGINATION = "playlists/SET_PAGINATION";
 const GET_GENERATED_PLAYLIST = "playlists/GET_GENERATED_PLAYLIST";
 const GET_TRACKS = "playlists/GET_TRACKS";
 const ADD_TRACKS = "playlists/ADD_TRACKS";
+const GET_DISCOVER_PLAYLISTS = "playlists/GET_DISCOVER_PLAYLISTS";
 
 // Action Creators
 const getPlaylists = (playlists) => ({
@@ -59,6 +60,11 @@ const getTracks = (tracks) => ({
 const addTracks = (tracks) => ({
   type: ADD_TRACKS,
   tracks,
+});
+
+const getDiscoverPlaylists = (playlists) => ({
+  type: GET_DISCOVER_PLAYLISTS,
+  playlists,
 });
 
 // Thunks
@@ -173,6 +179,18 @@ export const fetchAddTracks = (playlistId, trackUris) => async (dispatch) => {
   }
 };
 
+export const fetchGetDiscoverPlaylists = () => async (dispatch) => {
+  const response = await fetch("/api/playlists/discover", {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const playlists = await response.json();
+    dispatch(getDiscoverPlaylists(playlists));
+    return playlists;
+  }
+};
+
 // Initial State
 const initialState = {
   items: [],
@@ -240,6 +258,12 @@ const playlistReducer = (state = initialState, action) => {
               tracks: action.tracks,
             }
           : null,
+      };
+    case GET_DISCOVER_PLAYLISTS:
+      return {
+        ...state,
+        discover: action.playlists,
+        status: "succeeded",
       };
     default:
       return state;
