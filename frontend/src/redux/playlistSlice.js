@@ -180,7 +180,7 @@ export const fetchAddTracks = (playlistId, trackUris) => async (dispatch) => {
 };
 
 export const fetchGetDiscoverPlaylists = () => async (dispatch) => {
-  const response = await fetch("/api/playlists/discover", {
+  const response = await fetch("/api/discover", {
     credentials: "include",
   });
 

@@ -396,7 +396,7 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="h-full pt-[100px] w-full flex flex-col bg-[#111827] gap-5">
+    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col bg-[#111827] gap-5">
       {/* User Profile Section */}
       <div className="h-[15em] p-5 rounded-3xl bg-[#1F2937] w-[70%] m-auto flex flex-col gap-3">
         <h1 className="text-3xl text-slate-200 font-bold">
