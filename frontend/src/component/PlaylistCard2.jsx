@@ -41,11 +41,11 @@ const PlaylistCard2 = ({ playlist }) => {
         <img
           src={playlist.images[0].url}
           alt={playlist.name}
-          className="h-[18em] w-[18em] object-cover rounded-lg ml-5"
+          className="h-[18em] w-[18em] object-cover rounded-lg ml-5 min-h-[18em]"
         />
       )}
       <div className="flex flex-col  justify-evenly px-5 pb-5 flex-1">
-        <h3 className="text-5xl pb-1">{playlist.name}</h3>
+        <h3 className="text-5xl pb-1 ">{playlist.name}</h3>
         <p className=" text-slate-400 py-2 text-[1.5rem]">
           {playlist.description}
         </p>

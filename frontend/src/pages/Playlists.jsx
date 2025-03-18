@@ -58,9 +58,9 @@ const Playlists = () => {
   }
 
   return (
-    <div className="h-full pt-[100px] w-full bg-[#111827] gap-5 min-h-screen">
-      <div className="container mx-auto flex flex-col gap-5 pb-10">
-        <h1 className="text-4xl font-bold text-white">My Playlists</h1>
+    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col bg-[#111827] gap-5">
+      <div className="flex flex-col gap-5 items-center p-5">
+        <h1 className="text-4xl text-white">My Playlists</h1>
 
         {/* Total Count */}
         <p className="text-slate-400">

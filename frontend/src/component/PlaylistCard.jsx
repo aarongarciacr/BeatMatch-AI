@@ -11,10 +11,12 @@ const PlaylistCard = ({ playlist }) => {
     window.open(playlist.external_urls.spotify, "_blank");
   };
 
-  // const playlistDuration = playlist?.tracks?.items?.reduce(
-  //   (acc, item) => acc + item.track.duration_ms,
-  //   0
-  // );
+  const handlePlaylistNameLength = (playlistName) => {
+    if (playlistName.length > 50) {
+      return playlistName.slice(0, 50) + "...";
+    }
+    return playlistName;
+  };
 
   return (
     <div
@@ -25,11 +27,13 @@ const PlaylistCard = ({ playlist }) => {
         <img
           src={playlist.images[0].url}
           alt={playlist.name}
-          className="max-h-[18em] max-w-[18em] object-cover rounded-t-lg"
+          className="max-h-[18em] max-w-[18em] min-h-[18em] object-cover rounded-t-lg"
         />
       )}
       <div className="flex flex-col  justify-evenly px-5 pb-5 flex-1">
-        <h3 className="text-[1.15rem] pb-1">{playlist.name}</h3>
+        <h3 className="text-[1.15rem] font-light ">
+          {handlePlaylistNameLength(playlist.name)}
+        </h3>
         <p className=" text-slate-400 pb-2 text-[0.9rem]">
           {playlist?.tracks?.total || playlist?.tracks?.length} tracks
         </p>

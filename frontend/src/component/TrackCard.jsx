@@ -17,7 +17,7 @@ const TrackCard = ({ track }) => {
 
   return (
     <div
-      className="flex flex-row gap-5 p-5 mb-3 text-white font-bold rounded-xl justify-center items-center hover:bg-slate-800 hover:-translate-y-1 transform transition-all cursor-pointer"
+      className="flex flex-row gap-5 p-1 text-white font-bold rounded-xl justify-center items-center hover:bg-slate-800 hover:translate-x-1 transform transition-all cursor-pointer "
       onClick={() => window.open(track.external_urls.spotify, "_blank")}
     >
       {track.album.images?.[0]?.url && (
@@ -29,12 +29,12 @@ const TrackCard = ({ track }) => {
       )}
       <div className="flex flex-col justify-between flex-1">
         <h3 className="text-[1.5rem]">{track.name}</h3>
-        <p className="text-slate-400 py-1 text-[1.1rem]">
+        <p className="text-slate-400 text-[1.1rem]">
           {track.artists.map((artist) => artist.name).join(", ")}
         </p>
       </div>
       <div className="flex flex-col justify-between">
-        <p className="text-slate-400 py-1 text-[1.1rem]">
+        <p className="text-slate-400 text-[1.1rem] pr-5">
           {handleDuration(track.duration_ms)}
         </p>
       </div>

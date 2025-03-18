@@ -49,7 +49,7 @@ const PlaylistCard3 = ({ playlist }) => {
         <img
           src={playlistImage}
           alt={playlist.name}
-          className="h-[18em] w-[18em] object-cover rounded-lg ml-5"
+          className="h-[18em] w-[18em] object-cover rounded-lg ml-5 min-h-[18em]"
         />
       )}
       <div className="flex flex-col  justify-evenly px-5 pb-5 flex-1">

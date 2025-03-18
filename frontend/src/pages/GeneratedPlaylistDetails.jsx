@@ -42,7 +42,7 @@ const GeneratedPlaylistDetails = () => {
     <div className="flex h-full min-h-screen flex-col gap-5 p-5 bg-[#111827]">
       <div className="pt-[100px] w-full flex flex-col  gap-5">
         <div className="container mx-auto flex flex-col gap-5">
-          <h1 className="text-4xl font-bold text-white">Playlist Details</h1>
+          <h1 className="text-4xl text-white">Playlist Details</h1>
           {playlist && (
             <>
               <PlaylistCard3 playlist={playlist} />

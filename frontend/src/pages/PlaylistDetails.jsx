@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PlaylistCard2 from "../component/PlaylistCard2";
 import TrackCard from "../component/TrackCard";
+import Footer2 from "../component/Footer/Footer2";
 
 const PlaylistDetails = () => {
   const dispatch = useDispatch();
@@ -18,10 +19,10 @@ const PlaylistDetails = () => {
   }, [dispatch, playlistId]);
 
   return (
-    <div className="flex h-full min-h-screen flex-col gap-5 p-5 bg-[#111827]">
+    <div className="flex h-full min-h-screen flex-col gap-5 bg-[#111827]">
       <div className="pt-[100px] w-full flex flex-col  gap-5">
-        <div className="container mx-auto flex flex-col gap-5">
-          <h1 className="text-4xl font-bold text-white">Playlist Details</h1>
+        <div className="container mx-auto flex flex-col py-5 gap-5">
+          <h1 className="text-6xl text-white pl-5">Playlist Details</h1>
           {playlist && (
             <>
               <PlaylistCard2 playlist={playlist} />
@@ -33,6 +34,7 @@ const PlaylistDetails = () => {
             </>
           )}
         </div>
+        <Footer2 />
       </div>
     </div>
   );

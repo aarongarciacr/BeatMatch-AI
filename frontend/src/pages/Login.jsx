@@ -47,10 +47,8 @@ const Login = () => {
       >
         <div className="h-[50vh] flex flex-col items-start justify-center gap-10">
           <div>
-            <h1 className="text-6xl font-extrabold text-white ">
-              Smart Playlist for Every
-            </h1>
-            <h1 className="text-6xl font-extrabold text-white">Moment</h1>
+            <h1 className="text-6xl text-white ">Smart Playlist for Every</h1>
+            <h1 className="text-6xl text-white">Moment</h1>
           </div>
           <p className="text-white text-[1.5em] font-bold">
             Let AI create the perfect playlist that matches your mood, activity
@@ -77,7 +75,7 @@ const Login = () => {
       </div>
       <div className="h-[50vh] bg-neutral-900">
         <div className="flex flex-col items-center justify-center gap-10 h-full w-[70%] m-auto">
-          <h1 className="text-5xl text-white font-bold text-center">
+          <h1 className="text-5xl text-white text-center">
             Ready to Transform Your Listening Experience?
           </h1>
           <p className="text-slate-200 font-bold text-[1.2rem]">

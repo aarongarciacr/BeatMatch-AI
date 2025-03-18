@@ -7,7 +7,7 @@ const FeatureCard = ({ feature }) => {
         style={{ background: feature.color }}
         className="w-16 h-16 p-3 rounded-xl  "
       />
-      <h1 className="text-2xl font-bold text-slate-200">{feature.title}</h1>
+      <h1 className="text-2xl text-slate-200">{feature.title}</h1>
       <p className="text-slate-400 font-bold">{feature.description}</p>
     </div>
   );
