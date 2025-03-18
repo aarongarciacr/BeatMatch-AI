@@ -10,6 +10,7 @@ import Playlists from "./pages/Playlists";
 import PlaylistDetails from "./pages/PlaylistDetails";
 import { useEffect } from "react";
 import GeneratedPlaylistDetails from "./pages/GeneratedPlaylistDetails";
+import Discover from "./pages/Discover";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/playlists/BM/:id",
         element: <GeneratedPlaylistDetails />,
+      },
+      {
+        path: "/discover",
+        element: <Discover />,
       },
     ],
   },
