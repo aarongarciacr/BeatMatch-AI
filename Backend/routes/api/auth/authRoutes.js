@@ -90,7 +90,7 @@ router.get("/callback", async (req, res) => {
     );
 
     // Redirect with success parameter
-    return res.redirect("http://localhost:5173/dashboard");
+    return res.redirect("http://localhost:5173/discover");
   } catch (error) {
     console.error("Auth callback error:", error);
     return res.redirect("http://localhost:5173/?loginSuccess=false");

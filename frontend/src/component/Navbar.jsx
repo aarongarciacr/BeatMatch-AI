@@ -3,7 +3,7 @@ import WhiteLogo from "../assets/Primary_Logo_White_CMYK.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -69,10 +69,10 @@ const Navbar = () => {
             <div className="flex items-center">
               <img
                 className="avatar h-[2.5em] rounded-full mr-2"
-                src={user.images[0].url}
-                alt={user.display_name}
+                src={user?.images[0]?.url}
+                alt={user?.display_name}
               />
-              <p className="font-bold">{user.display_name}</p>
+              <p className="font-bold">{user?.display_name}</p>
             </div>
           </div>
         ) : (
