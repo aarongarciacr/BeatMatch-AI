@@ -10,6 +10,7 @@ const GET_GENERATED_PLAYLIST = "playlists/GET_GENERATED_PLAYLIST";
 const GET_TRACKS = "playlists/GET_TRACKS";
 const ADD_TRACKS = "playlists/ADD_TRACKS";
 const GET_DISCOVER_PLAYLISTS = "playlists/GET_DISCOVER_PLAYLISTS";
+const GET_AI_PLAYLISTS = "playlists/GET_AI_PLAYLISTS";
 
 // Action Creators
 const getPlaylists = (playlists) => ({
@@ -64,6 +65,11 @@ const addTracks = (tracks) => ({
 
 const getDiscoverPlaylists = (playlists) => ({
   type: GET_DISCOVER_PLAYLISTS,
+  playlists,
+});
+
+const getAIPlaylists = (playlists) => ({
+  type: GET_AI_PLAYLISTS,
   playlists,
 });
 
@@ -191,6 +197,18 @@ export const fetchGetDiscoverPlaylists = () => async (dispatch) => {
   }
 };
 
+export const fetchGetAIPlaylists = () => async (dispatch) => {
+  const response = await fetch("/api/playlists/db", {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const playlists = await response.json();
+    dispatch(getAIPlaylists(playlists));
+    return playlists;
+  }
+};
+
 // Initial State
 const initialState = {
   items: [],
@@ -263,6 +281,12 @@ const playlistReducer = (state = initialState, action) => {
       return {
         ...state,
         discover: action.playlists,
+        status: "succeeded",
+      };
+    case GET_AI_PLAYLISTS:
+      return {
+        ...state,
+        aiPlaylists: action.playlists,
         status: "succeeded",
       };
     default:

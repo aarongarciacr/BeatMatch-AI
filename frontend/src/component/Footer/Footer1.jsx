@@ -1,6 +1,6 @@
 const Footer1 = () => {
   return (
-    <div className="h-[15vh] bg-[#111827] w-full flex flex-col items-center justify-center ">
+    <div className="h-[15vh] backContainer w-full flex flex-col items-center justify-center border-t-2 border-neutral-800">
       <div className="flex flex-row items-center justify-around w-[100%] gap-[50em]">
         <h1 className="text-slate-500 text-[1.2rem]">BeatMatch AI</h1>
         <div className="flex items-center gap-5">

@@ -1,6 +1,6 @@
 const Footer2 = () => {
   return (
-    <div className="h-[10vh] bg-[#18212f] w-full flex flex-row items-center justify-center ">
+    <div className="h-[10vh] backContainer border-t-2 border-neutral-800 w-full flex flex-row items-center justify-center ">
       <div className="flex flex-row items-center justify-around w-[100%] gap-[50em]">
         <p className="text-slate-500 text-[1rem]">
           &copy; 2025 BeatMatch AI. All rights reserved.

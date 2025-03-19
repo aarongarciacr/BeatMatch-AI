@@ -24,8 +24,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar h-[80px] w-dvw bg-neutral-900 text-slate-200 fixed top-0 z-50">
-      <div className="container flex h-full flex-row justify-between items-center m-auto  ">
+    <nav className="navbar h-[80px] w-dvw bg-black text-slate-200 fixed top-0 z-50 border-b-2 border-neutral-800">
+      <div className="container flex h-full flex-row justify-between items-center m-auto ">
         <h1 className="text-2xl cursor-pointer" onClick={handleLogo}>
           BeatMatch AI
         </h1>
