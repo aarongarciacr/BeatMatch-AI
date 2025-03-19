@@ -18,16 +18,21 @@ const PlaylistCard = ({ playlist }) => {
     }
     return playlistName;
   };
-
   return (
     <div
       onClick={handlePlaylistClick}
       className="text-white font-bold 
        flex flex-col rounded-lg bg-[#18212f] cursor-pointer w-[18em] hover:bg-[#222e41] hover:-translate-y-1 transition-transform items-center"
     >
-      {playlist.images?.[0]?.url && (
+      {playlist.images?.[0]?.url ? (
         <img
-          src={playlist.images[0].url}
+          src={playlist?.images[0]?.url}
+          alt={playlist.name}
+          className="max-h-[16em] max-w-[16em] min-h-[16em] mt-4 object-cover rounded-lg"
+        />
+      ) : (
+        <img
+          src={playlist.image}
           alt={playlist.name}
           className="max-h-[16em] max-w-[16em] min-h-[16em] mt-4 object-cover rounded-lg"
         />

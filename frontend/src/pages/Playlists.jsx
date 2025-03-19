@@ -14,6 +14,8 @@ const Playlists = () => {
 
   const spotifyPlaylists = useSelector((state) => state.playlists?.items);
   const aiPlaylists = useSelector((state) => state.playlists?.aiPlaylists);
+  console.log("aiPlaylists", aiPlaylists);
+
   const status = useSelector((state) => state.playlists?.status);
   const error = useSelector((state) => state.playlists?.error);
   const { next, previous, total } = useSelector(
@@ -22,37 +24,58 @@ const Playlists = () => {
 
   const limit = 10;
   const [offset, setOffset] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     dispatch(fetchUserPlaylists({ limit, offset }));
-    dispatch(fetchGetAIPlaylists());
-  }, [dispatch, offset]);
+    dispatch(fetchGetAIPlaylists({ page, limit }));
+  }, [dispatch, offset, page]);
 
   const handleNextPage = () => {
-    if (next) {
-      const url = new URL(next);
-      const newOffset =
-        Number(url.searchParams.get("offset")) || offset + limit;
-      setOffset(newOffset);
+    if (isSelected === "Spotify") {
+      if (next) {
+        const url = new URL(next);
+        const newOffset =
+          Number(url.searchParams.get("offset")) || offset + limit;
+        setOffset(newOffset);
+      }
+    } else {
+      if (aiPlaylists.pagination.totalPages > page) {
+        setPage(page + 1);
+      }
     }
   };
-
+  console.log("page", page);
   const handlePrevPage = () => {
-    if (previous) {
-      const url = new URL(previous);
-      const newOffset =
-        Number(url.searchParams.get("offset")) || Math.max(offset - limit, 0);
-      setOffset(newOffset);
+    if (isSelected === "Spotify") {
+      if (previous) {
+        const url = new URL(previous);
+        const newOffset =
+          Number(url.searchParams.get("offset")) || Math.max(offset - limit, 0);
+        setOffset(newOffset);
+      }
+    } else {
+      if (page > 1) {
+        setPage(page - 1);
+      }
     }
   };
 
   const handleFirstPage = () => {
-    setOffset(0);
+    if (isSelected === "Spotify") {
+      setOffset(0);
+    } else {
+      setPage(1);
+    }
   };
 
   const handleLastPage = () => {
-    const lastOffset = Math.max(total - limit, 0);
-    setOffset(lastOffset);
+    if (isSelected === "Spotify") {
+      const lastOffset = Math.max(total - limit, 0);
+      setOffset(lastOffset);
+    } else {
+      setPage(Math.floor(aiPlaylists.pagination.totalItems / limit));
+    }
   };
 
   if (status === "loading") {
@@ -62,6 +85,9 @@ const Playlists = () => {
   if (status === "failed") {
     return <div className="text-red-500 text-center mt-10">Error: {error}</div>;
   }
+
+  console.log(isSelected === "Spotify" && !previous) ||
+    (isSelected === "AI" && page === 1);
 
   return (
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
@@ -117,22 +143,30 @@ const Playlists = () => {
         </div>
 
         {/* Total Count */}
-        <p className="text-slate-400">
-          Showing {offset + 1} - {Math.min(offset + limit, total)} of {total}{" "}
-          playlists
-        </p>
+        {isSelected === "Spotify" ? (
+          <p className="text-slate-400">
+            Showing {offset + 1} - {Math.min(offset + limit, total)} of {total}{" "}
+            playlists
+          </p>
+        ) : (
+          <p className="text-slate-400">
+            Showing {(page - 1) * limit + 1} -{" "}
+            {Math.min(page * limit, aiPlaylists?.pagination?.totalItems)} of{" "}
+            {aiPlaylists?.pagination?.totalItems} playlists
+          </p>
+        )}
 
         {/* Playlists Grid */}
         <div className="gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {spotifyPlaylists &&
             isSelected === "Spotify" &&
-            spotifyPlaylists.map((playlist) => (
+            spotifyPlaylists?.map((playlist) => (
               <PlaylistCard key={playlist.id} playlist={playlist} />
             ))}
 
           {aiPlaylists &&
             isSelected === "AI" &&
-            aiPlaylists.map((playlist) => (
+            aiPlaylists?.playlists?.map((playlist) => (
               <PlaylistCard key={playlist} playlist={playlist} />
             ))}
         </div>
@@ -147,24 +181,33 @@ const Playlists = () => {
           </p>
           <button
             className={`px-4 py-2 rounded ${
-              previous
+              (isSelected === "Spotify" && previous) ||
+              (isSelected === "AI" && page > 1)
                 ? "bg-green-500 hover:bg-green-600"
                 : "bg-gray-600 cursor-not-allowed"
             }`}
             onClick={handlePrevPage}
-            disabled={!previous}
+            disabled={
+              (isSelected === "Spotify" && !previous) ||
+              (isSelected === "AI" && page === 1)
+            }
           >
             Previous
           </button>
 
           <button
             className={`px-4 py-2 rounded ${
-              next
+              (isSelected === "Spotify" && next) ||
+              (isSelected === "AI" && page < aiPlaylists.pagination.totalPages)
                 ? "bg-green-500 hover:bg-green-600"
                 : "bg-gray-600 cursor-not-allowed"
             }`}
             onClick={handleNextPage}
-            disabled={!next}
+            disabled={
+              (isSelected === "Spotify" && !next) ||
+              (isSelected === "AI" &&
+                page === aiPlaylists.pagination.totalPages)
+            }
           >
             Next
           </button>

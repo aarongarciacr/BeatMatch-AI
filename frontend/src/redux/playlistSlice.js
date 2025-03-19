@@ -197,17 +197,22 @@ export const fetchGetDiscoverPlaylists = () => async (dispatch) => {
   }
 };
 
-export const fetchGetAIPlaylists = () => async (dispatch) => {
-  const response = await fetch("/api/playlists/db", {
-    credentials: "include",
-  });
+export const fetchGetAIPlaylists =
+  ({ page, limit }) =>
+  async (dispatch) => {
+    const response = await fetch(
+      `/api/playlists/db?page=${page}&limit=${limit}`,
+      {
+        credentials: "include",
+      }
+    );
 
-  if (response.ok) {
-    const playlists = await response.json();
-    dispatch(getAIPlaylists(playlists));
-    return playlists;
-  }
-};
+    if (response.ok) {
+      const playlists = await response.json();
+      dispatch(getAIPlaylists(playlists));
+      return playlists;
+    }
+  };
 
 // Initial State
 const initialState = {
