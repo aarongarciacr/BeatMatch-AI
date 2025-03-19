@@ -138,6 +138,7 @@ router.post("/generate", reqAuth, async (req, res) => {
             title: song.title,
             artist: song.artist,
             spotifyId: track.id,
+            image: track.album.images[0].url,
           });
         } else {
           missingSongs.push(song);
@@ -174,6 +175,7 @@ router.post("/generate", reqAuth, async (req, res) => {
               title: song.title,
               artist: song.artist,
               spotifyId: track.id,
+              image: track.album.images[0].url,
             });
           }
         } catch (error) {
@@ -200,6 +202,7 @@ router.post("/generate", reqAuth, async (req, res) => {
       mood: mood,
       activity: activity,
       length: length,
+      image: tracks[0].image,
       tracks: tracks,
     });
 

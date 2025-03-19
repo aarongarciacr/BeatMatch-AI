@@ -24,8 +24,8 @@ const generatePlaylist = async (
     - Favorite Genres And Artist: ${favoriteGenresAndArtists.join(", ")}
 
     ### Instructions:
-    1 **Generate a creative funny playlist name** that reflects the user's mood and activity.
-    2 **Write a short, sassy, and funny engaging description** (1-2 sentences) about the playlist.
+    1 **Generate a creative funny playlist name** that reflects the user's mood and activity, 3 or 4 words max.
+    2 **Write a short, sassy, and funny engaging description** (1 sentence max) about the playlist.
     3 **Generate exactly ${length} songs** that match the user's preferences.
     4 **Verify the song exists and it's a real song** don't make up any song.
     5 If you cannot find enough songs, **repeat similar tracks until the list is exactly ${length} long**.

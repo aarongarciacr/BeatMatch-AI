@@ -1,26 +1,32 @@
 import { useEffect, useState } from "react";
-import { fetchUserPlaylists } from "../redux/playlistSlice";
+import {
+  fetchGetAIPlaylists,
+  fetchUserPlaylists,
+} from "../redux/playlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import PlaylistCard from "../component/PlaylistCard";
 import Footer2 from "../component/Footer/Footer2";
+import SpotifyGreenLogo from "../assets/Spotify_Primary_Logo_RGB_Green.png";
 
 const Playlists = () => {
   const dispatch = useDispatch();
+  const [isSelected, setIsSelected] = useState("Spotify");
 
-  const playlists = useSelector((state) => state.playlists?.items);
+  const spotifyPlaylists = useSelector((state) => state.playlists?.items);
+  const aiPlaylists = useSelector((state) => state.playlists?.aiPlaylists);
   const status = useSelector((state) => state.playlists?.status);
   const error = useSelector((state) => state.playlists?.error);
   const { next, previous, total } = useSelector(
     (state) => state.playlists?.pagination
   );
 
-  const limit = 10; // Number of playlists per page
+  const limit = 10;
   const [offset, setOffset] = useState(0);
 
-  // Fetch playlists whenever offset changes
   useEffect(() => {
-    dispatch(fetchUserPlaylists({ limit, offset })); // Fix: Correct parameter passing
-  }, [dispatch, offset]); // Re-run when offset changes
+    dispatch(fetchUserPlaylists({ limit, offset }));
+    dispatch(fetchGetAIPlaylists());
+  }, [dispatch, offset]);
 
   const handleNextPage = () => {
     if (next) {
@@ -58,9 +64,57 @@ const Playlists = () => {
   }
 
   return (
-    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col bg-[#111827] gap-5">
-      <div className="flex flex-col gap-5 items-center p-5">
+    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
+      <div className="flex flex-col gap-5 container m-auto p-5">
         <h1 className="text-4xl text-white">My Playlists</h1>
+
+        <div className="flex flex-row gap-5">
+          <button
+            className="bg-[#1F2937] hover:bg-[#263344] px-4 py-2 rounded-full flex flex-row"
+            style={{
+              backgroundColor: isSelected === "Spotify" ? "#103630" : "",
+            }}
+            onClick={() => setIsSelected("Spotify")}
+          >
+            <img
+              src={SpotifyGreenLogo}
+              alt="Spotify Logo"
+              className="h-5 w-5 mx-2"
+            />
+            <p className="text-[#1ED760] font-bold mr-2">Spotify Playlist</p>
+          </button>
+
+          <button
+            className="bg-[#1F2937] hover:bg-[#263344] px-4 py-2 rounded-full flex flex-row"
+            style={{
+              backgroundColor: isSelected === "AI" ? "#33205e" : "",
+            }}
+            onClick={() => setIsSelected("AI")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-wand-sparkles text-[#8B5CF6] mx-2"
+            >
+              <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72" />
+              <path d="m14 7 3 3" />
+              <path d="M5 6v4" />
+              <path d="M19 14v4" />
+              <path d="M10 2v2" />
+              <path d="M7 8H3" />
+              <path d="M21 16h-4" />
+              <path d="M11 3H9" />
+            </svg>
+            <p className="text-[#8B5CF6] font-bold mr-2">AI Generated</p>{" "}
+          </button>
+        </div>
 
         {/* Total Count */}
         <p className="text-slate-400">
@@ -69,10 +123,17 @@ const Playlists = () => {
         </p>
 
         {/* Playlists Grid */}
-        <div className="gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {playlists &&
-            playlists.map((playlist) => (
+        <div className="gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          {spotifyPlaylists &&
+            isSelected === "Spotify" &&
+            spotifyPlaylists.map((playlist) => (
               <PlaylistCard key={playlist.id} playlist={playlist} />
+            ))}
+
+          {aiPlaylists &&
+            isSelected === "AI" &&
+            aiPlaylists.map((playlist) => (
+              <PlaylistCard key={playlist} playlist={playlist} />
             ))}
         </div>
 

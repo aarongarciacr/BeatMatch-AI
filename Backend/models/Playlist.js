@@ -13,6 +13,7 @@ const PlaylistSchema = new mongoose.Schema({
   mood: String,
   activity: String,
   length: Number,
+  image: String,
   tracks: [
     {
       uri: String,

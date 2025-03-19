@@ -98,7 +98,7 @@ const DiscoverPlaylistCard = ({ playlist }) => {
     <div
       className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card"
       style={{
-        backgroundImage: `url(${playlist?.img})`,
+        backgroundImage: `url(${playlist?.image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

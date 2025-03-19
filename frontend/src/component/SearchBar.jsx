@@ -45,6 +45,10 @@ const availableGenres = [
   "Tejano",
   "Conjunto",
   "Zydeco",
+  "Corridos Tumbados",
+  "Trap Corridos",
+  "Trap Latino",
+  "Grupera",
 ];
 
 const SearchBar = ({ onSelectedItemsChange }) => {
