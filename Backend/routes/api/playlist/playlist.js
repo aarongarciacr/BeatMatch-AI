@@ -306,26 +306,42 @@ router.put("/:playlistId", reqAuth, async (req, res) => {
 });
 
 //Delete Playlist
+const mongoose = require("mongoose");
+
 router.delete("/:playlistId", reqAuth, async (req, res) => {
   try {
     const playlistId = req.params.playlistId;
-    let headers = {
+    const headers = {
       Authorization: `Bearer ${req.session.access_token}`,
     };
 
-    const aiPlaylist = await Playlist.findOneAndDelete({
-      _id: playlistId,
-      userId: req.user.spotifyId,
-    });
+    // Build query based on whether playlistId is a valid ObjectId
+    const query = { userId: req.user.spotifyId };
+    if (mongoose.Types.ObjectId.isValid(playlistId)) {
+      query.$or = [{ spotifyId: playlistId }, { _id: playlistId }];
+    } else {
+      query.$or = [{ spotifyId: playlistId }];
+    }
 
-    const playlistResponse = await axios.delete(
-      `${API_BASE_URL}/playlists/${playlistId}`,
-      { headers }
-    );
+    // Delete from database using the constructed query
+    const _aiPlaylist = await Playlist.findOneAndDelete(query);
+    if (!_aiPlaylist) {
+      return res
+        .status(404)
+        .json({ message: "Playlist not found in database" });
+    }
+
+    // If the playlist has a Spotify ID, unfollow it on Spotify
+    if (_aiPlaylist.spotifyId) {
+      await axios.delete(
+        `${API_BASE_URL}/playlists/${_aiPlaylist.spotifyId}/followers`,
+        { headers }
+      );
+    }
 
     return res.json({
       message: "Playlist deleted successfully",
-      playlist: playlistResponse.data,
+      playlist: _aiPlaylist,
     });
   } catch (error) {
     console.error("Error in delete playlist:", error);

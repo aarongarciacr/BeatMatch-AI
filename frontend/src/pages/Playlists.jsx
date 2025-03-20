@@ -28,7 +28,7 @@ const Playlists = () => {
   useEffect(() => {
     dispatch(fetchUserPlaylists({ limit, offset }));
     dispatch(fetchGetAIPlaylists({ page, limit }));
-  }, [dispatch, offset, page]);
+  }, [dispatch, offset, page, spotifyPlaylists, aiPlaylists]);
 
   const handleNextPage = () => {
     if (isSelected === "Spotify") {
@@ -87,8 +87,6 @@ const Playlists = () => {
   return (
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
       <div className="flex flex-col gap-5 container m-auto p-5">
-        <h1 className="text-4xl text-white">My Playlists</h1>
-
         <div className="flex flex-row gap-5">
           <button
             className="bg-[#1F2937] hover:bg-[#263344] px-4 py-2 rounded-full flex flex-row"

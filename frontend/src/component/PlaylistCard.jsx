@@ -22,8 +22,17 @@ const PlaylistCard = ({ playlist }) => {
 
   const handleDeleteClick = (e) => {
     e.stopPropagation();
-    dispatch(fetchDeletePlaylist(playlist._id));
+    if (playlist.id) {
+      dispatch(fetchDeletePlaylist(playlist.id));
+    } else if (playlist.spotifyId) {
+      dispatch(fetchDeletePlaylist(playlist.spotifyId));
+    } else {
+      dispatch(fetchDeletePlaylist(playlist._id));
+    }
   };
+  console.log("playlistId", playlist.id);
+  console.log("spotifyId", playlist.spotifyId);
+  console.log("id", playlist._id);
 
   const handlePlaylistNameLength = (playlistName) => {
     if (!playlistName) return "";
