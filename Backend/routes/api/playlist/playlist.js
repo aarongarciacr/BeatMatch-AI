@@ -58,6 +58,14 @@ router.post("/", reqAuth, async (req, res) => {
       { headers }
     );
 
+    const playlistId = playlistResponse.data.id;
+
+    const aiPlaylist = await Playlist.findOneAndUpdate(
+      { name: name, description: description, userId: req.user.spotifyId },
+      { spotifyId: playlistId },
+      { new: true }
+    );
+
     res.json({
       message: "Playlist created successfully",
       playlist: playlistResponse.data,
@@ -212,6 +220,7 @@ router.post("/generate", reqAuth, async (req, res) => {
     //***TODOOO***  ADD IMAGE TO TRACKS TO SET THE PLAYLIST IMAGE TO THE FIRST TRACK'S IMAGE*/ */
     // Create new playlist in database
     const playlist = new Playlist({
+      spotifyId: null,
       name: playlistData.playlist_name,
       description: playlistData.description,
       userId: user.spotifyId,

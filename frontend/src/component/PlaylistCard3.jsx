@@ -7,6 +7,7 @@ import SpotifyWhiteLogo from "../assets/Spotify_Primary_Logo_RGB_White.png";
 const PlaylistCard3 = ({ playlist }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log("playlist", playlist);
 
   const moodsObj = moods.reduce((acc, mood) => {
     acc[mood.name] = {
@@ -28,6 +29,12 @@ const PlaylistCard3 = ({ playlist }) => {
 
   const handleSpotifyClick = async (e) => {
     e.stopPropagation();
+    if (playlist.spotifyId) {
+      alert("Playlist already saved on Spotify");
+      navigate(`/playlists/${playlist.spotifyId}`);
+      return;
+    }
+
     try {
       const trackUris = playlist.tracks.map((track) => track.uri);
 
