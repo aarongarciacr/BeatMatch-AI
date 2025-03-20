@@ -34,13 +34,6 @@ const PlaylistCard = ({ playlist }) => {
   console.log("spotifyId", playlist.spotifyId);
   console.log("id", playlist._id);
 
-  const handlePlaylistNameLength = (playlistName) => {
-    if (!playlistName) return "";
-    if (playlistName.length > 50) {
-      return playlistName.slice(0, 50) + "...";
-    }
-    return playlistName;
-  };
   return (
     <div
       onClick={handlePlaylistClick}
@@ -61,8 +54,8 @@ const PlaylistCard = ({ playlist }) => {
         />
       )}
       <div className="flex flex-col w-full justify-evenly px-5 flex-1">
-        <h3 className="text-[1.15rem] font-light">
-          {handlePlaylistNameLength(playlist?.name)}
+        <h3 className="text-[1.15rem] font-light line-clamp-2">
+          {playlist?.name}
         </h3>
         <p className=" text-slate-400 text-[0.9rem]">
           {playlist?.tracks?.total} tracks

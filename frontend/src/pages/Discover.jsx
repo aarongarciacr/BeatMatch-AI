@@ -60,17 +60,23 @@ const activityCardData = [
 
 const DiscoverMoodCard = ({ mood }) => {
   return (
-    <div
-      className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card"
-      style={{
-        backgroundImage: `url(${mood?.img})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="font-bold">
-        <h3 className="font-bold text-[1.3rem]">{mood?.title}</h3>
-        <p>{mood?.description}</p>
+    <div className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card group relative transition-all duration-700 overflow-hidden cursor-pointer">
+      <div
+        className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
+        style={{
+          backgroundImage: `url(${mood?.img})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: 0,
+        }}
+      />
+      <div className="font-bold relative z-10">
+        <h3 className="font-bold text-slate-200 text-[1.3rem] transition-all duration-300 group-hover:text-[1.8rem] shadow-2xl">
+          {mood?.title}
+        </h3>
+        <p className="transition-all duration-300 group-hover:text-[1.1rem]">
+          {mood?.description}
+        </p>
       </div>
     </div>
   );
@@ -78,16 +84,20 @@ const DiscoverMoodCard = ({ mood }) => {
 
 const ActivityCard = ({ activity }) => {
   return (
-    <div className="flex items-start p-5 gap-5 bg-[#18212f] rounded-3xl">
+    <div className="flex items-start p-5 gap-5 bg-[#18212f] rounded-3xl group transition-all duration-700 cursor-pointer">
       <div
-        className="h-14 w-14 rounded-md flex items-center justify-center"
+        className="h-14 w-14 rounded-md flex items-center justify-center group-hover:scale-110 transition-all duration-300"
         style={{ background: activity.color, color: activity.iconColor }}
       >
         {activity?.img}
       </div>
       <div className="flex flex-col ">
-        <h1 className="text-2xl text-slate-200">{activity?.title}</h1>
-        <p className="text-slate-400 font-bold">{activity?.description}</p>
+        <h1 className="text-2xl text-slate-200 group-hover:text-[1.8rem] transition-all duration-300 font-bold">
+          {activity?.title}
+        </h1>
+        <p className="text-slate-400 font-bold group-hover:text-[1.1rem] transition-all duration-300">
+          {activity?.description}
+        </p>
       </div>
     </div>
   );
@@ -96,17 +106,27 @@ const ActivityCard = ({ activity }) => {
 const DiscoverPlaylistCard = ({ playlist }) => {
   return (
     <div
-      className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card"
+      className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card group  transition-all duration-700 overflow-hidden cursor-pointer"
       style={{
-        backgroundImage: `url(${playlist?.image})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        position: "relative",
       }}
     >
-      s
-      <div className="font-bold">
-        <h3 className="font-bold text-[1.3rem]">{playlist?.name}</h3>
-        <p>{playlist?.description}</p>
+      <div
+        className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
+        style={{
+          backgroundImage: `url(${playlist?.image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: 0,
+        }}
+      />
+      <div className="font-bold relative z-10">
+        <h3 className="font-bold text-[1.3rem] transition-all duration-300 group-hover:text-[1.8rem] shadow-2xl text-slate-200">
+          {playlist?.name}
+        </h3>
+        <p className="transition-all duration-300 group-hover:text-[1.1rem]">
+          {playlist?.description}
+        </p>
       </div>
     </div>
   );
