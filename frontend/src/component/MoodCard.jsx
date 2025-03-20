@@ -1,8 +1,22 @@
 const MoodCard = ({ mood, onClick, isSelected }) => {
   return (
     <div
-      className={`w-[10em] h-[5em] rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors 
-        ${isSelected ? "bg-green-500" : "bg-[#374151] hover:bg-[#353f4e]"} `}
+      className={`w-[16em]  rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors ease-in-out transform  ${
+        isSelected ? " h-[7em]" : "h-[6em]"
+      }`}
+      style={{
+        backgroundColor: isSelected ? mood.selectedColor : mood.color,
+      }}
+      onMouseEnter={(e) => {
+        if (!isSelected) {
+          e.currentTarget.style.backgroundColor = mood.hoverColor;
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isSelected) {
+          e.currentTarget.style.backgroundColor = mood.color;
+        }
+      }}
       onClick={onClick}
     >
       <p className="text-white text-2xl">{mood.icon}</p>

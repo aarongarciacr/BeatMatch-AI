@@ -115,8 +115,8 @@ const DiscoverPlaylistCard = ({ playlist }) => {
 const Discover = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth?.user);
-  const firstFourDiscoverPlaylists = useSelector((state) =>
-    state?.playlists?.aiPlaylists?.slice(0, 4)
+  const firstFourDiscoverPlaylists = useSelector(
+    (state) => state?.playlists?.aiPlaylists?.playlists
   );
 
   console.log("firstFourDiscoverPlaylists", firstFourDiscoverPlaylists);
@@ -125,7 +125,7 @@ const Discover = () => {
 
     try {
       dispatch(fetchGetDiscoverPlaylists());
-      dispatch(fetchGetAIPlaylists());
+      dispatch(fetchGetAIPlaylists({ page: 1, limit: 4 }));
     } catch (error) {
       console.error("Error fetching discover playlists:", error);
     }

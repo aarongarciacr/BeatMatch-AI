@@ -6,11 +6,13 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../component/SearchBar";
 import Footer2 from "../component/Footer/Footer2";
 import { moods, activities } from "../constants/moodAndActivities.jsx";
+import moodIcon from "../assets/Mood.svg";
+import activityIcon from "../assets/Sprint.svg";
 
 const Dashboard = () => {
   const [selectedMood, setSelectedMood] = useState("");
   const [selectedActivity, setSelectedActivity] = useState("");
-  const [selectedLength, setSelectedLength] = useState("");
+  const [selectedLength, setSelectedLength] = useState("10"); // default to 10
   const [selectedItems, setSelectedItems] = useState([]); // Artists & Genres
   const [isLoading, setIsLoading] = useState(false);
 
@@ -83,73 +85,80 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col bg-[#111827] gap-5">
-      {/* User Profile Section */}
-      <div className="h-[15em] p-5 rounded-3xl bg-[#1F2937] w-[70%] m-auto flex flex-col gap-3">
-        <h1 className="text-3xl text-slate-200">
-          Welcome back, {user?.display_name?.split(" ")[0]}!
-        </h1>
-        {user && (
-          <div className="text-slate-300 font-bold">
-            <h2 className="text-[1.2rem]">Your Spotify Profile</h2>
-            <div className="text-slate-400">
-              <p>{user.email}</p>
-              <p>{user.followers.total} followers</p>
-              <a
-                className="underline"
-                href={user.external_urls.spotify}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open Spotify Profile
-              </a>
-            </div>
-          </div>
-        )}
-        <a href="/playlists">View Playlists</a>
+    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
+      <div className="flex flex-col pb-5 items-center justify-center gap-5">
+        <h1 className="text-4xl">Create Your Perfect Playlist</h1>
+        <p className="font-bold">
+          Customized your playlist parameters and let AI do the magic
+        </p>
       </div>
 
       {/* Playlist Creation Section */}
-      <div className="h-full w-[70%] m-auto p-5 flex flex-col gap-5 bg-[#1f2937] rounded-3xl mb-10">
-        <p className="text-slate-300 font-bold text-2xl">
-          Let's create your perfect playlist for today.
-        </p>
-
+      <div className="h-full w-[70%] m-auto p-5 flex flex-col gap-5 bg-[#090C14] rounded-3xl mb-10">
         {/* Mood Selection */}
         <div className="flex flex-col gap-5">
-          <p className="text-slate-300 font-bold">Mood</p>
+          <div className="flex flex-row gap-2 justify-start items-center">
+            <img src={moodIcon} alt="mood" className="w-10 h-10" />
+            <p className="text-slate-300 font-bold text-xl">Select Mood</p>
+          </div>
           {renderCards(moods, selectedMood, setSelectedMood)}
         </div>
 
         {/* Activity Selection */}
         <div className="flex flex-col gap-5">
-          <p className="text-slate-300 font-bold">Activity</p>
+          <div className="flex flex-row gap-2 justify-start items-center">
+            <img src={activityIcon} alt="activity" className="w-10 h-10" />
+            <p className="text-slate-300 font-bold text-xl">Choose Activity</p>
+          </div>
           {renderCards(activities, selectedActivity, setSelectedActivity)}
         </div>
 
         {/* Favorite Artists & Genres (SearchBar) */}
         <div className="flex flex-col gap-5">
-          <p className="text-slate-300 font-bold">Favorite Artists & Genres</p>
+          <p className="text-slate-300 font-bold text-xl">
+            Favorite Artists & Genres
+          </p>
           <SearchBar onSelectedItemsChange={setSelectedItems} />
         </div>
 
         {/* Playlist Length Selection */}
         <div className="flex flex-col gap-5">
-          <p className="text-slate-300 font-bold">Playlist Length</p>
-          <div className="flex flex-row gap-5 items-center justify-center">
-            {["10", "15", "20"].map((length) => (
-              <button
-                key={length}
-                onClick={() => setSelectedLength(length)}
-                className={`${
-                  selectedLength === length
-                    ? "bg-green-500"
-                    : "bg-[#374151] transition-colors hover:bg-[#353f4e]"
-                } text-white px-5 py-2 rounded-lg `}
-              >
-                {length} Songs
-              </button>
-            ))}
+          <div className="flex justify-between items-center">
+            <p className="text-slate-300 font-bold">Playlist Length</p>
+            <span className="text-purple-500/80 font-bold">
+              {selectedLength} Songs
+            </span>
+          </div>
+          <input
+            type="range"
+            min="10"
+            max="20"
+            step="5"
+            value={selectedLength}
+            onChange={(e) => setSelectedLength(e.target.value)}
+            className="w-full h-2 bg-[#374151] rounded-lg appearance-none cursor-pointer 
+              accent-purple-500 
+              [&::-webkit-slider-thumb]:appearance-none 
+              [&::-webkit-slider-thumb]:w-4 
+              [&::-webkit-slider-thumb]:h-4 
+              [&::-webkit-slider-thumb]:bg-purple-500 
+              [&::-webkit-slider-thumb]:rounded-full 
+              [&::-webkit-slider-thumb]:cursor-pointer
+              [&::-webkit-slider-thumb]:transition-all
+              [&::-webkit-slider-thumb]:hover:scale-150
+              [&::-moz-range-thumb]:appearance-none 
+              [&::-moz-range-thumb]:w-4 
+              [&::-moz-range-thumb]:h-4 
+              [&::-moz-range-thumb]:bg-purple-500 
+              [&::-moz-range-thumb]:border-none
+              [&::-moz-range-thumb]:rounded-full 
+              [&::-moz-range-thumb]:cursor-pointer
+              [&::-moz-range-thumb]:transition-all
+              [&::-moz-range-thumb]:hover:scale-150"
+          />
+          <div className="flex justify-between text-xs text-slate-400">
+            <span>10 songs</span>
+            <span>20 songs</span>
           </div>
         </div>
 
@@ -158,7 +167,7 @@ const Dashboard = () => {
           className={`px-5 py-2 rounded-lg mt-5 ${
             isLoading
               ? "bg-gray-500 cursor-not-allowed"
-              : "bg-green-500 cursor-pointer hover:bg-green-600"
+              : "bg-[#10B981] cursor-pointer hover:bg-[#2a8b6b] transition-colors"
           } text-white`}
           onClick={handleGeneratePlaylist}
           disabled={isLoading}

@@ -120,20 +120,22 @@ const SearchBar = ({ onSelectedItemsChange }) => {
 
   return (
     <div className="flex flex-col w-full relative">
-      <div className="flex gap-4 mb-2">
+      <div className="flex justify-center items-center gap-4 mb-2 pb-4">
         <button
-          className={`px-4 py-2 rounded-lg ${
+          className={`px-4 py-2 rounded-full ${
             searchType === "artist"
-              ? "bg-green-500 text-white"
-              : "bg-gray-200 transition-colors hover:bg-gray-300"
+              ? "bg-[#162E5B] text-white"
+              : "bg-[#1F2937] transition-colors text-slate-400 hover:bg-gray-700"
           }`}
           onClick={() => setSearchType("artist")}
         >
           Search Artists
         </button>
         <button
-          className={`px-4 py-2 rounded-lg ${
-            searchType === "genre" ? "bg-green-500 text-white" : "bg-gray-200"
+          className={`px-4 py-2 rounded-full ${
+            searchType === "genre"
+              ? "bg-[#512C3E] text-white"
+              : "bg-[#1F2937] transition-colors text-slate-400 hover:bg-gray-700"
           }`}
           onClick={() => setSearchType("genre")}
         >
@@ -141,24 +143,24 @@ const SearchBar = ({ onSelectedItemsChange }) => {
         </button>
       </div>
 
-      <div className="input-wrapper bg-white w-full rounded-lg h-[2.5rem] px-4 shadow-lg flex items-center">
+      <div className="input-wrapper text-white bg-slate-800 w-full rounded-lg h-[3rem] px-4 shadow-lg flex items-center">
         <input
           type="text"
           placeholder={`Search for ${
             searchType === "artist" ? "artists" : "genres"
           }`}
-          className="bg-transparent border-none focus:outline-none w-full h-full"
+          className="bg-transparent border-none focus:outline-none w-full h-full "
           value={input}
           onChange={handleChange}
         />
       </div>
 
       {results.length > 0 && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto z-10">
+        <div className="absolute top-full left-0 w-full bg-slate-500 shadow-lg rounded-lg max-h-60 overflow-y-auto z-10">
           {results.map((item) => (
             <div
               key={item.name}
-              className="p-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3"
+              className="p-2 hover:bg-slate-400 cursor-pointer flex items-center gap-3"
               onClick={() => handleSelectItem(item)}
             >
               {item.image && (
