@@ -296,6 +296,34 @@ router.put("/:playlistId", reqAuth, async (req, res) => {
   }
 });
 
+//Delete Playlist
+router.delete("/:playlistId", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+    let headers = {
+      Authorization: `Bearer ${req.session.access_token}`,
+    };
+
+    const aiPlaylist = await Playlist.findOneAndDelete({
+      _id: playlistId,
+      userId: req.user.spotifyId,
+    });
+
+    const playlistResponse = await axios.delete(
+      `${API_BASE_URL}/playlists/${playlistId}`,
+      { headers }
+    );
+
+    return res.json({
+      message: "Playlist deleted successfully",
+      playlist: playlistResponse.data,
+    });
+  } catch (error) {
+    console.error("Error in delete playlist:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // Get playlist tracks
 router.get("/:playlistId/tracks", reqAuth, async (req, res) => {
   try {

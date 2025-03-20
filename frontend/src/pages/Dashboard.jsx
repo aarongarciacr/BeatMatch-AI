@@ -132,7 +132,7 @@ const Dashboard = () => {
           <input
             type="range"
             min="10"
-            max="20"
+            max="30"
             step="5"
             value={selectedLength}
             onChange={(e) => setSelectedLength(e.target.value)}
@@ -158,7 +158,7 @@ const Dashboard = () => {
           />
           <div className="flex justify-between text-xs text-slate-400">
             <span>10 songs</span>
-            <span>20 songs</span>
+            <span>30 songs</span>
           </div>
         </div>
 

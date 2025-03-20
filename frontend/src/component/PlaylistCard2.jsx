@@ -1,8 +1,12 @@
+import SpotifyWhiteLogo from "../assets/Spotify_Primary_Logo_RGB_White.png";
+
 const PlaylistCard2 = ({ playlist }) => {
   const handleSpotifyClick = (e) => {
     e.stopPropagation();
     window.open(playlist.external_urls.spotify, "_blank");
   };
+
+  console.log("name", playlist.name);
 
   const playlistDuration = playlist?.tracks?.items?.reduce(
     (acc, item) => acc + item.track.duration_ms,
@@ -13,10 +17,7 @@ const PlaylistCard2 = ({ playlist }) => {
     if (playlistDuration < 60000) {
       return `${(playlistDuration / 1000).toFixed(0)}s`;
     } else if (playlistDuration < 3600000) {
-      return `${(playlistDuration / 60000).toFixed(0)} minutes ${(
-        (playlistDuration % 60000) /
-        1000
-      ).toFixed(0)}s`;
+      return `${(playlistDuration / 60000).toFixed(0)} min `;
     } else {
       return `${(playlistDuration / 3600000).toFixed(0)}h ${(
         (playlistDuration % 3600000) /
@@ -40,24 +41,14 @@ const PlaylistCard2 = ({ playlist }) => {
           {playlist.description}
         </p>
         <p className=" text-slate-400 py-2 pb-4 text-[1.2rem]">
-          Created by {playlist.owner.display_name} • {playlist.tracks.total}{" "}
+          Created by {playlist?.owner?.display_name} • {playlist?.tracks?.total}{" "}
           tracks • {durationHandle(playlistDuration)}
         </p>
         <button
-          className="bg-green-500 px-4 h-[4em] text-[1.2rem] rounded-full w-fit flex items-center gap-2"
+          className="bg-green-500 px-4 h-[3em] text-[1.2rem] rounded-full w-fit flex items-center gap-2"
           onClick={handleSpotifyClick}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="icon icon-tabler icons-tabler-filled icon-tabler-player-play"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" />
-          </svg>
+          <img src={SpotifyWhiteLogo} alt="Spotify Logo" className="w-5" />
           Play on Spotify
         </button>
       </div>

@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const PlaylistSchema = new mongoose.Schema({
+  spotifyId: {
+    type: String,
+  },
   name: {
     type: String,
     required: true,

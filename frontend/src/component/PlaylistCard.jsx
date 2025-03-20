@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import SpotifyGreenLogo from "../assets/Spotify_Primary_Logo_RGB_Green.png";
+import { fetchDeletePlaylist } from "../redux/playlistSlice";
 
 const PlaylistCard = ({ playlist }) => {
   const navigate = useNavigate();
-
-  console.log("playlist", playlist);
+  const dispatch = useDispatch();
 
   const handlePlaylistClick = () => {
     if (playlist.href) {
@@ -16,10 +17,16 @@ const PlaylistCard = ({ playlist }) => {
 
   const handleSpotifyClick = (e) => {
     e.stopPropagation();
-    window.open(playlist.external_urls.spotify, "_blank");
+    window.open(playlist?.external_urls.spotify, "_blank");
+  };
+
+  const handleDeleteClick = (e) => {
+    e.stopPropagation();
+    dispatch(fetchDeletePlaylist(playlist._id));
   };
 
   const handlePlaylistNameLength = (playlistName) => {
+    if (!playlistName) return "";
     if (playlistName.length > 50) {
       return playlistName.slice(0, 50) + "...";
     }
@@ -31,25 +38,25 @@ const PlaylistCard = ({ playlist }) => {
       className="text-white font-bold 
        flex flex-col rounded-lg bg-[#18212f] cursor-pointer w-[18em] hover:bg-[#222e41] hover:-translate-y-1 transition-transform items-center gap-2"
     >
-      {playlist.images?.[0]?.url ? (
+      {playlist?.images?.[0]?.url ? (
         <img
           src={playlist?.images[0]?.url}
-          alt={playlist.name}
+          alt={playlist?.name}
           className="max-h-[16em] max-w-[16em] min-h-[16em] mt-4 object-cover rounded-lg"
         />
       ) : (
         <img
-          src={playlist.image}
-          alt={playlist.name}
+          src={playlist?.image}
+          alt={playlist?.name}
           className="max-h-[16em] max-w-[16em] min-h-[16em] mt-4 object-cover rounded-lg"
         />
       )}
       <div className="flex flex-col w-full justify-evenly px-5 flex-1">
         <h3 className="text-[1.15rem] font-light">
-          {handlePlaylistNameLength(playlist.name)}
+          {handlePlaylistNameLength(playlist?.name)}
         </h3>
         <p className=" text-slate-400 text-[0.9rem]">
-          {playlist?.tracks?.total || playlist?.tracks?.length} tracks
+          {playlist?.tracks?.total} tracks
         </p>
       </div>
       <div className="pt-1 pb-5 w-full flex justify-evenly">
@@ -60,7 +67,10 @@ const PlaylistCard = ({ playlist }) => {
           <img className="w-5" src={SpotifyGreenLogo} alt="Spotify Logo" />
           <p className="text-[#1ED760] font-bold">View</p>
         </button>
-        <button className="bg-[#3D1F24] rounded-lg w-[15%] hover:bg-red-900 flex flex-row items-center justify-center gap-2">
+        <button
+          onClick={handleDeleteClick}
+          className="bg-[#3D1F24] rounded-lg w-[15%] hover:bg-red-900 flex flex-row items-center justify-center gap-2"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

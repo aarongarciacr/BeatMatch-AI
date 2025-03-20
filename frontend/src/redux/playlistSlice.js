@@ -214,6 +214,17 @@ export const fetchGetAIPlaylists =
     }
   };
 
+export const fetchDeletePlaylist = (playlistId) => async (dispatch) => {
+  const response = await fetch(`/api/playlists/${playlistId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    dispatch(deletePlaylist(playlistId));
+  }
+};
+
 // Initial State
 const initialState = {
   items: [],
