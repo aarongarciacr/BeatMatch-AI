@@ -14,7 +14,6 @@ const Playlists = () => {
 
   const spotifyPlaylists = useSelector((state) => state.playlists?.items);
   const aiPlaylists = useSelector((state) => state.playlists?.aiPlaylists);
-  console.log("aiPlaylists", aiPlaylists);
 
   const status = useSelector((state) => state.playlists?.status);
   const error = useSelector((state) => state.playlists?.error);
@@ -45,7 +44,6 @@ const Playlists = () => {
       }
     }
   };
-  console.log("page", page);
   const handlePrevPage = () => {
     if (isSelected === "Spotify") {
       if (previous) {
@@ -85,9 +83,6 @@ const Playlists = () => {
   if (status === "failed") {
     return <div className="text-red-500 text-center mt-10">Error: {error}</div>;
   }
-
-  console.log(isSelected === "Spotify" && !previous) ||
-    (isSelected === "AI" && page === 1);
 
   return (
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">

@@ -25,6 +25,7 @@ export const moods = [
     color: "#16142B",
     selectedColor: "#2a2659",
     hoverColor: "#27234c",
+    iconColor: "#6f33bd",
   },
   {
     name: "Sad",
@@ -48,6 +49,7 @@ export const moods = [
     color: "#2C3E50",
     selectedColor: "#3D566E",
     hoverColor: "#34495f",
+    iconColor: "#418bcf",
   },
   {
     name: "Chill",
@@ -70,6 +72,7 @@ export const moods = [
     color: "#1A535C",
     selectedColor: "#2A7B9B",
     hoverColor: "#236872",
+    iconColor: "#37b2e2",
   },
   {
     name: "Excited",
@@ -95,6 +98,7 @@ export const moods = [
     color: "#0E182B",
     selectedColor: "#162e5b",
     hoverColor: "#162747",
+    iconColor: "#336cd6",
   },
   {
     name: "Romantic",
@@ -117,6 +121,7 @@ export const moods = [
     color: "#0A1E1F",
     selectedColor: "#185254",
     hoverColor: "#153e3f",
+    iconColor: "#35c2c7",
   },
   {
     name: "Energetic",
@@ -139,6 +144,7 @@ export const moods = [
     color: "#201219",
     selectedColor: "#512c3e",
     hoverColor: "#3a222e",
+    iconColor: "#b83976",
   },
   {
     name: "Motivated",
@@ -163,6 +169,7 @@ export const moods = [
     color: "#211714",
     selectedColor: "#4c332d",
     hoverColor: "#382622",
+    iconColor: "#b43939",
   },
   {
     name: "Calm",
@@ -191,6 +198,7 @@ export const moods = [
     color: "#1B4332",
     selectedColor: "#2D6C4E",
     hoverColor: "#285f46",
+    iconColor: "#35bb47",
   },
 ];
 
@@ -220,6 +228,7 @@ export const activities = [
     color: "#201219",
     selectedColor: "#512c3e",
     hoverColor: "#3a222e",
+    iconColor: "#b83976",
   },
   {
     name: "Study",
@@ -247,6 +256,7 @@ export const activities = [
     color: "#1A535C",
     selectedColor: "#2A7B9B",
     hoverColor: "#236872",
+    iconColor: "#37b2e2",
   },
   {
     name: "Party",
@@ -277,6 +287,7 @@ export const activities = [
     color: "#201222",
     selectedColor: "#5b2a63",
     hoverColor: "#402344",
+    iconColor: "#b635c7",
   },
   {
     name: "Focus",
@@ -304,6 +315,7 @@ export const activities = [
     color: "#2C3E50",
     selectedColor: "#3D566E",
     hoverColor: "#34495f",
+    iconColor: "#418bcf",
   },
   {
     name: "Sleep",
@@ -329,6 +341,7 @@ export const activities = [
     color: "#0E182B",
     selectedColor: "#162e5b",
     hoverColor: "#162747",
+    iconColor: "#336cd6",
   },
   {
     name: "Drive",
@@ -354,5 +367,6 @@ export const activities = [
     color: "#1B4332",
     selectedColor: "#2D6C4E",
     hoverColor: "#285f46",
+    iconColor: "#35bb47",
   },
 ];

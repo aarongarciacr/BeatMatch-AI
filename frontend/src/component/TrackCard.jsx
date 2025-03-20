@@ -14,25 +14,33 @@ const TrackCard = ({ track }) => {
         .padStart(2, "0")}`;
     }
   };
-
   return (
     <div
-      className="flex flex-row gap-5 p-1 text-white font-bold rounded-xl justify-center items-center hover:bg-slate-800 hover:translate-x-1 transform transition-all cursor-pointer "
+      className="grid grid-cols-[6fr_3fr_3fr_1fr] p-1 text-white font-bold rounded-xl justify-center items-center hover:bg-slate-800 hover:translate-x-1 transform transition-all cursor-pointer "
       onClick={() => window.open(track.external_urls.spotify, "_blank")}
     >
-      {track.album.images?.[0]?.url && (
-        <img
-          src={track.album.images[0].url}
-          alt={track.name}
-          className="h-[70px] object-cover rounded-md"
-        />
-      )}
-      <div className="flex flex-col justify-between flex-1">
-        <h3 className="text-[1.5rem]">{track.name}</h3>
-        <p className="text-slate-400 text-[1.1rem]">
-          {track.artists.map((artist) => artist.name).join(", ")}
-        </p>
+      <div className="flex flex-row justify-center gap-5 items-center">
+        {track.album.images?.[0]?.url && (
+          <img
+            src={track.album.images[0].url}
+            alt={track.name}
+            className="h-[70px] object-cover rounded-md"
+          />
+        )}
+        <div className="flex flex-col justify-between flex-1">
+          <h3 className="text-[1.5rem]">{track.name}</h3>
+          <p className="text-slate-400 text-[1.1rem]">
+            {track.artists.map((artist) => artist.name).join(", ")}
+          </p>
+        </div>
       </div>
+      <div className="flex flex-col justify-between">
+        <p className="text-slate-400 text-[1.1rem]">{track.artists[0].name}</p>
+      </div>
+      <div className="flex flex-col justify-between">
+        <p className="text-slate-400 text-[1.1rem]">{track.album.name}</p>
+      </div>
+
       <div className="flex flex-col justify-between">
         <p className="text-slate-400 text-[1.1rem] pr-5">
           {handleDuration(track.duration_ms)}

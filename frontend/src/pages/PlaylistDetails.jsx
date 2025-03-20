@@ -11,22 +11,25 @@ const PlaylistDetails = () => {
   const dispatch = useDispatch();
   const playlistId = useParams().id;
   const playlist = useSelector((state) => state.playlists?.singlePlaylist);
-  console.log("playlistId", playlistId);
-  console.log("playlist", playlist);
 
   useEffect(() => {
     dispatch(fetchPlaylistDetails(playlistId));
   }, [dispatch, playlistId]);
 
   return (
-    <div className="flex h-full min-h-screen flex-col gap-5 bg-[#111827]">
+    <div className="flex h-full min-h-screen flex-col gap-5 backContainer">
       <div className="pt-[100px] w-full flex flex-col  gap-5">
         <div className="container mx-auto flex flex-col py-5 gap-5">
-          <h1 className="text-6xl text-white pl-5">Playlist Details</h1>
           {playlist && (
             <>
               <PlaylistCard2 playlist={playlist} />
               <div className=" p-5 rounded-3xl">
+                <div className="grid grid-cols-[6fr_3fr_3fr_1fr] py-2 pl-2 text-white font-bold border-b-2 border-slate-500 mb-4">
+                  <p>TITLE</p>
+                  <p>ARTIST</p>
+                  <p>ALBUM</p>
+                  <p>TIME</p>
+                </div>
                 {playlist?.tracks?.items?.map((track) => (
                   <TrackCard key={track.track.id} track={track.track} />
                 ))}

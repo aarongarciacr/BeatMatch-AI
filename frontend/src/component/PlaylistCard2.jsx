@@ -1,11 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
 const PlaylistCard2 = ({ playlist }) => {
-  const navigate = useNavigate();
-  const handlePlaylistClick = () => {
-    navigate(`/playlists/${playlist.id}`);
-  };
-
   const handleSpotifyClick = (e) => {
     e.stopPropagation();
     window.open(playlist.external_urls.spotify, "_blank");
@@ -33,10 +26,7 @@ const PlaylistCard2 = ({ playlist }) => {
   };
 
   return (
-    <div
-      onClick={handlePlaylistClick}
-      className="text-white font-bold flex gap-5 rounded-lg  w-full h-[20em] justify-center items-center "
-    >
+    <div className="text-white font-bold flex gap-5 rounded-lg  w-full h-[20em] justify-center items-center ">
       {playlist.images?.[0]?.url && (
         <img
           src={playlist.images[0].url}
@@ -50,7 +40,8 @@ const PlaylistCard2 = ({ playlist }) => {
           {playlist.description}
         </p>
         <p className=" text-slate-400 py-2 pb-4 text-[1.2rem]">
-          {playlist.tracks.total} tracks • {durationHandle(playlistDuration)}
+          Created by {playlist.owner.display_name} • {playlist.tracks.total}{" "}
+          tracks • {durationHandle(playlistDuration)}
         </p>
         <button
           className="bg-green-500 px-4 h-[4em] text-[1.2rem] rounded-full w-fit flex items-center gap-2"

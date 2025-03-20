@@ -3,8 +3,15 @@ import SpotifyGreenLogo from "../assets/Spotify_Primary_Logo_RGB_Green.png";
 
 const PlaylistCard = ({ playlist }) => {
   const navigate = useNavigate();
+
+  console.log("playlist", playlist);
+
   const handlePlaylistClick = () => {
-    navigate(`/playlists/${playlist.id}`);
+    if (playlist.href) {
+      navigate(`/playlists/${playlist.id}`);
+    } else {
+      navigate(`/playlists/BM/${playlist._id}`);
+    }
   };
 
   const handleSpotifyClick = (e) => {

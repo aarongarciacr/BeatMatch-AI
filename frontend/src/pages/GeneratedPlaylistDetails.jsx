@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import PlaylistCard2 from "../component/PlaylistCard2";
 import TrackCard from "../component/TrackCard";
 import PlaylistCard3 from "../component/PlaylistCard3";
+import Footer2 from "../component/Footer/Footer2";
 
 const GeneratedPlaylistDetails = () => {
   const dispatch = useDispatch();
@@ -39,25 +40,27 @@ const GeneratedPlaylistDetails = () => {
   }
 
   return (
-    <div className="flex h-full min-h-screen flex-col gap-5 p-5 bg-[#111827]">
+    <div className="flex h-full min-h-screen flex-col gap-5 backContainer">
       <div className="pt-[100px] w-full flex flex-col  gap-5">
-        <div className="container mx-auto flex flex-col gap-5">
-          <h1 className="text-4xl text-white">Playlist Details</h1>
+        <div className="container mx-auto flex flex-col py-5 gap-5">
           {playlist && (
             <>
               <PlaylistCard3 playlist={playlist} />
-              <div className="p-5 rounded-3xl">
-                {tracks && tracks.length > 0 ? (
-                  tracks.map((track) => (
-                    <TrackCard key={track.id} track={track} />
-                  ))
-                ) : (
-                  <p className="text-white">No tracks available</p>
-                )}
+              <div className=" p-5 rounded-3xl">
+                <div className="grid grid-cols-[6fr_3fr_3fr_1fr] py-2 pl-2 text-white font-bold border-b-2 border-slate-500 mb-4">
+                  <p>TITLE</p>
+                  <p>ARTIST</p>
+                  <p>ALBUM</p>
+                  <p>TIME</p>
+                </div>
+                {tracks?.map((track) => (
+                  <TrackCard key={track.id} track={track} />
+                ))}
               </div>
             </>
           )}
         </div>
+        <Footer2 />
       </div>
     </div>
   );
