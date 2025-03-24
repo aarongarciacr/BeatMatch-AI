@@ -27,7 +27,7 @@ router.get("/login", (req, res) => {
     response_type: "code",
     redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     scope: scope,
-    show_dialog: true, // Forces login every time
+    // show_dialog: true, // Forces login every time
   });
 
   let auth_url = `${AUTH_URL}?${new URLSearchParams(params).toString()}`;

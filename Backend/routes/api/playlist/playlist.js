@@ -462,11 +462,6 @@ router.get("/db/:playlistId/tracks", reqAuth, async (req, res) => {
       return res.status(404).json({ message: "Playlist not found" });
     }
 
-    const user = await User.findOne({ spotifyId: playlist.userId });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
     // If no tracks, return an empty array
     if (!playlist.tracks || playlist.tracks.length === 0) {
       return res.json([]);
@@ -491,7 +486,7 @@ router.get("/db/:playlistId/tracks", reqAuth, async (req, res) => {
     const chunks = chunkArray(trackIds, 50);
 
     const headers = {
-      Authorization: `Bearer ${user.accessToken}`,
+      Authorization: `Bearer ${req.session.access_token}`,
     };
 
     const allTracks = [];
@@ -504,10 +499,7 @@ router.get("/db/:playlistId/tracks", reqAuth, async (req, res) => {
 
       const response = await axios.get(`${API_BASE_URL}/tracks`, {
         headers,
-        params: {
-          ids: idsParam,
-          // market
-        },
+        params: { ids: idsParam },
       });
 
       // The response contains an array in response.data.tracks

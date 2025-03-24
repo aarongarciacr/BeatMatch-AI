@@ -2,24 +2,65 @@ const express = require("express");
 const axios = require("axios");
 const router = express.Router();
 const { reqAuth } = require("../auth/authRoutes");
+const Playlist = require("../../../models/Playlist");
+const User = require("../../../models/User");
 
-const API_BASE_URL = "https://api.spotify.com/v1";
-const BEATMATCH_SPOTIFY_ID = process.env.BEATMATCH_SPOTIFY_ID;
+const moods = [
+  "Happy",
+  "Sad",
+  "Chill",
+  "Excited",
+  "Romantic",
+  "Energetic",
+  "Motivated",
+  "Calm",
+];
+
+const activities = ["Workout", "Study", "Party", "Focus", "Sleep", "Drive"];
 
 // Get playlists to display on "Discover" page
 router.get("/", async (req, res) => {
-  const headers = {
-    Authorization: `Bearer ${req.session.access_token}`,
-  };
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/users/${BEATMATCH_SPOTIFY_ID}/playlists`,
-      { headers }
-    );
-    const playlists = response.data.items;
+    const playlists = await Playlist.find({ userId: { $eq: "BeatMatch-AI" } });
     res.json(playlists);
   } catch (error) {
-    res.status(400).json({ message: error.response?.data || error.message });
+    console.error("Error fetching discover playlists:", error);
+    res.status(500).send("Error fetching discover playlists");
+  }
+});
+
+//Get Playlist by Mood
+router.get("/mood/:mood", async (req, res) => {
+  try {
+    const moodParam = req.params.mood;
+    const mood = moodParam.split("-").find((mood) => moods.includes(mood));
+    const playlists = await Playlist.find({
+      $and: [{ userId: { $eq: "BeatMatch-AI" } }, { mood: { $eq: mood } }],
+    });
+    res.json(playlists);
+  } catch (error) {
+    console.error("Error fetching discover playlists:", error);
+    res.status(500).send("Error fetching discover playlists");
+  }
+});
+
+//Get Playlist by Activity
+router.get("/activity/:activity", async (req, res) => {
+  try {
+    const activityParam = req.params.activity;
+    const activity = activityParam
+      .split("-")
+      .find((activity) => activities.includes(activity));
+    const playlists = await Playlist.find({
+      $and: [
+        { userId: { $eq: "BeatMatch-AI" } },
+        { activity: { $eq: activity } },
+      ],
+    });
+    res.json(playlists);
+  } catch (error) {
+    console.error("Error fetching discover playlists:", error);
+    res.status(500).send("Error fetching discover playlists");
   }
 });
 

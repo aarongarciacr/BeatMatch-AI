@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import GeneratedPlaylistDetails from "./pages/GeneratedPlaylistDetails";
 import Discover from "./pages/Discover";
 import MoodDiscover from "./pages/MoodDiscover";
+import ActivityDiscover from "./pages/ActivityDiscover";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/discover/mood/:mood",
         element: <MoodDiscover />,
+      },
+      {
+        path: "/discover/activity/:activity",
+        element: <ActivityDiscover />,
       },
     ],
   },

@@ -25,12 +25,12 @@ const moodCardData = [
     img: waves2,
   },
   {
-    title: "Deep Focus",
-    description: "For concentration and productivity",
+    title: "Motivated Mindset",
+    description: "Tracks to keep you going",
     img: waves3,
   },
   {
-    title: "Energy Boost",
+    title: "Energetic Boost",
     description: "High-tempo tracks to keep you going",
     img: waves4,
   },
@@ -51,7 +51,7 @@ const activityCardData = [
     iconColor: "rgb(59, 130, 246)",
   },
   {
-    title: "Commute Companion",
+    title: "Drive Companion",
     description: "Tracks for your daily commute",
     img: activities[5].icon,
     color: "rgb(16, 185, 129, 0.4)",
@@ -86,9 +86,12 @@ const DiscoverMoodCard = ({ mood, onClick }) => {
   );
 };
 
-const ActivityCard = ({ activity }) => {
+const ActivityCard = ({ activity, onClick }) => {
   return (
-    <div className="flex items-start p-5 gap-5 bg-[#18212f] rounded-3xl group transition-all duration-700 cursor-pointer">
+    <div
+      className="flex items-start p-5 gap-5 bg-[#18212f] rounded-3xl group transition-all duration-700 cursor-pointer"
+      onClick={onClick}
+    >
       <div
         className="h-14 w-14 rounded-md flex items-center justify-center group-hover:scale-110 transition-all duration-300"
         style={{ background: activity.color, color: activity.iconColor }}
@@ -164,7 +167,11 @@ const Discover = () => {
   };
 
   const handleMoodClick = (mood) => {
-    navigate(`mood/${mood.title.toLowerCase().replace(/\s+/g, "-")}`);
+    navigate(`mood/${mood.title.replace(/\s+/g, "-")}`);
+  };
+
+  const handleActivityClick = (activity) => {
+    navigate(`activity/${activity.title.replace(/\s+/g, "-")}`);
   };
 
   return (
@@ -199,7 +206,11 @@ const Discover = () => {
           <h2 className="text-3xl">Perfect for Your Activities</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 container m-auto">
             {activityCardData.map((activity) => (
-              <ActivityCard key={activity.title} activity={activity} />
+              <ActivityCard
+                key={activity.title}
+                activity={activity}
+                onClick={() => handleActivityClick(activity)}
+              />
             ))}
           </div>
         </div>

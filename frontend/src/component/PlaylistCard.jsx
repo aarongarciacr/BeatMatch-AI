@@ -30,7 +30,7 @@ const PlaylistCard = ({ playlist }) => {
       dispatch(fetchDeletePlaylist(playlist._id));
     }
   };
-
+  console.log("PLAYLIST", playlist);
   return (
     <div
       onClick={handlePlaylistClick}
@@ -55,7 +55,7 @@ const PlaylistCard = ({ playlist }) => {
           {playlist?.name}
         </h3>
         <p className=" text-slate-400 text-[0.9rem]">
-          {playlist?.tracks?.total} tracks
+          {playlist?.tracks?.total || playlist?.length} tracks
         </p>
       </div>
       <div className="pt-1 pb-5 w-full flex justify-evenly">

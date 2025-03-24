@@ -1,18 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetPlaylistByMood } from "../redux/playlistSlice";
+import { fetchGetPlaylistByActivity } from "../redux/playlistSlice";
 import PlaylistCard from "../component/PlaylistCard";
 import Footer from "../component/Footer/Footer1";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const MoodDiscover = () => {
+const ActivityDiscover = () => {
   const dispatch = useDispatch();
-  const mood = useParams().mood;
-  const playlists = useSelector((state) => state.playlists?.moodPlaylists);
-  console.log("mood", mood);
+  const activity = useParams().activity;
+  const playlists = useSelector((state) => state.playlists?.activityPlaylists);
+  console.log("activity", activity);
   useEffect(() => {
-    dispatch(fetchGetPlaylistByMood(mood));
-  }, [dispatch, mood]);
+    dispatch(fetchGetPlaylistByActivity(activity));
+  }, [dispatch, activity]);
 
   console.log("playlists", playlists);
   return (
@@ -30,4 +30,4 @@ const MoodDiscover = () => {
   );
 };
 
-export default MoodDiscover;
+export default ActivityDiscover;

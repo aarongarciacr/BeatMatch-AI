@@ -10,6 +10,8 @@ const GET_GENERATED_PLAYLIST = "playlists/GET_GENERATED_PLAYLIST";
 const GET_TRACKS = "playlists/GET_TRACKS";
 const ADD_TRACKS = "playlists/ADD_TRACKS";
 const GET_DISCOVER_PLAYLISTS = "playlists/GET_DISCOVER_PLAYLISTS";
+const GET_PLAYLIST_BY_MOOD = "playlists/GET_PLAYLIST_BY_MOOD";
+const GET_PLAYLIST_BY_ACTIVITY = "playlists/GET_PLAYLIST_BY_ACTIVITY";
 const GET_AI_PLAYLISTS = "playlists/GET_AI_PLAYLISTS";
 
 // Action Creators
@@ -70,6 +72,16 @@ const getDiscoverPlaylists = (playlists) => ({
 
 const getAIPlaylists = (playlists) => ({
   type: GET_AI_PLAYLISTS,
+  playlists,
+});
+
+const getPlaylistByMood = (playlists) => ({
+  type: GET_PLAYLIST_BY_MOOD,
+  playlists,
+});
+
+const getPlaylistByActivity = (playlists) => ({
+  type: GET_PLAYLIST_BY_ACTIVITY,
   playlists,
 });
 
@@ -238,6 +250,31 @@ const initialState = {
   },
 };
 
+export const fetchGetPlaylistByMood = (mood) => async (dispatch) => {
+  const response = await fetch(`/api/discover/mood/${mood}`, {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const playlists = await response.json();
+    console.log("playlistsReducer", playlists);
+    dispatch(getPlaylistByMood(playlists));
+    return playlists;
+  }
+};
+
+export const fetchGetPlaylistByActivity = (activity) => async (dispatch) => {
+  const response = await fetch(`/api/discover/activity/${activity}`, {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const playlists = await response.json();
+    dispatch(getPlaylistByActivity(playlists));
+    return playlists;
+  }
+};
+
 // Reducer
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -303,6 +340,18 @@ const playlistReducer = (state = initialState, action) => {
       return {
         ...state,
         aiPlaylists: action.playlists,
+        status: "succeeded",
+      };
+    case GET_PLAYLIST_BY_MOOD:
+      return {
+        ...state,
+        moodPlaylists: action.playlists,
+        status: "succeeded",
+      };
+    case GET_PLAYLIST_BY_ACTIVITY:
+      return {
+        ...state,
+        activityPlaylists: action.playlists,
         status: "succeeded",
       };
     default:
