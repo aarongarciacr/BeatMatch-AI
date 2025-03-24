@@ -28,29 +28,43 @@ const Playlists = () => {
   useEffect(() => {
     dispatch(fetchUserPlaylists({ limit, offset }));
     dispatch(fetchGetAIPlaylists({ page, limit }));
-  }, [dispatch, offset, page, spotifyPlaylists, aiPlaylists]);
+  }, [dispatch, offset, page]);
 
   const handleNextPage = () => {
     if (isSelected === "Spotify") {
       if (next) {
-        const url = new URL(next);
-        const newOffset =
-          Number(url.searchParams.get("offset")) || offset + limit;
-        setOffset(newOffset);
+        try {
+          const url = new URL(next);
+          const newOffset =
+            Number(url.searchParams.get("offset")) || offset + limit;
+          setOffset(newOffset);
+        } catch (error) {
+          console.error("Error parsing next URL:", error);
+          // Fallback to simple increment
+          setOffset(offset + limit);
+        }
       }
     } else {
-      if (aiPlaylists.pagination.totalPages > page) {
+      if (aiPlaylists?.pagination?.totalPages > page) {
         setPage(page + 1);
       }
     }
   };
+
   const handlePrevPage = () => {
     if (isSelected === "Spotify") {
       if (previous) {
-        const url = new URL(previous);
-        const newOffset =
-          Number(url.searchParams.get("offset")) || Math.max(offset - limit, 0);
-        setOffset(newOffset);
+        try {
+          const url = new URL(previous);
+          const newOffset =
+            Number(url.searchParams.get("offset")) ||
+            Math.max(offset - limit, 0);
+          setOffset(newOffset);
+        } catch (error) {
+          console.error("Error parsing previous URL:", error);
+          // Fallback to simple decrement
+          setOffset(Math.max(offset - limit, 0));
+        }
       }
     } else {
       if (page > 1) {
@@ -77,11 +91,23 @@ const Playlists = () => {
   };
 
   if (status === "loading") {
-    return <div className="text-white text-center mt-10">Loading...</div>;
+    return (
+      <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer">
+        <div className="text-white text-center mt-10">Loading...</div>
+      </div>
+    );
   }
 
   if (status === "failed") {
-    return <div className="text-red-500 text-center mt-10">Error: {error}</div>;
+    return (
+      <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer">
+        <div className="text-red-500 text-center mt-10">
+          {error === "Too many requests"
+            ? "Rate limit exceeded. Please try again in a moment."
+            : `Error: ${error}`}
+        </div>
+      </div>
+    );
   }
 
   return (

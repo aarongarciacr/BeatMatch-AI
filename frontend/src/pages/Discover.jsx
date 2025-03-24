@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   fetchGetAIPlaylists,
   fetchGetDiscoverPlaylists,
@@ -58,9 +59,12 @@ const activityCardData = [
   },
 ];
 
-const DiscoverMoodCard = ({ mood }) => {
+const DiscoverMoodCard = ({ mood, onClick }) => {
   return (
-    <div className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card group relative transition-all duration-700 overflow-hidden cursor-pointer">
+    <div
+      className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card group relative transition-all duration-700 overflow-hidden cursor-pointer"
+      onClick={onClick}
+    >
       <div
         className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
         style={{
@@ -133,6 +137,7 @@ const DiscoverPlaylistCard = ({ playlist }) => {
 };
 
 const Discover = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth?.user);
   const firstFourDiscoverPlaylists = useSelector(
@@ -158,6 +163,10 @@ const Discover = () => {
     return "";
   };
 
+  const handleMoodClick = (mood) => {
+    navigate(`mood/${mood.title.toLowerCase().replace(/\s+/g, "-")}`);
+  };
+
   return (
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
       <div className="flex flex-col gap-5 p-5">
@@ -176,7 +185,11 @@ const Discover = () => {
           <h2 className="text-3xl">Based on Your Mood</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 container m-auto">
             {moodCardData.map((mood) => (
-              <DiscoverMoodCard key={mood.title} mood={mood} />
+              <DiscoverMoodCard
+                key={mood.title}
+                mood={mood}
+                onClick={() => handleMoodClick(mood)}
+              />
             ))}
           </div>
         </div>

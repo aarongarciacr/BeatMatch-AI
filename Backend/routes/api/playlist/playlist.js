@@ -452,12 +452,12 @@ router.get("/db/:playlistId", reqAuth, async (req, res) => {
 });
 
 // Get playlists' tracks on Spotify
+// Get playlists' tracks on Spotify using "Get Several Tracks"
 router.get("/db/:playlistId/tracks", reqAuth, async (req, res) => {
   try {
     const playlistId = req.params.playlistId;
 
     const playlist = await Playlist.findById(playlistId);
-
     if (!playlist) {
       return res.status(404).json({ message: "Playlist not found" });
     }
@@ -467,27 +467,56 @@ router.get("/db/:playlistId/tracks", reqAuth, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // If no tracks, return an empty array
+    if (!playlist.tracks || playlist.tracks.length === 0) {
+      return res.json([]);
+    }
+
+    // Collect all track IDs from the playlist
+    const trackIds = playlist.tracks.map((track) => track.spotifyId);
+
+    // NOTE: Spotify’s "Get Several Tracks" endpoint supports a maximum of 50 IDs per request.
+    // If your playlist can have more than 50 tracks, you’ll need to split them into multiple requests.
+    // Below is a helper function to chunk arrays into smaller pieces of size `chunkSize`.
+
+    function chunkArray(array, chunkSize) {
+      const chunks = [];
+      for (let i = 0; i < array.length; i += chunkSize) {
+        chunks.push(array.slice(i, i + chunkSize));
+      }
+      return chunks;
+    }
+
+    // Chunk track IDs if necessary
+    const chunks = chunkArray(trackIds, 50);
+
     const headers = {
       Authorization: `Bearer ${user.accessToken}`,
     };
 
-    let tracks = [];
-    for (const track of playlist.tracks) {
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/tracks/${track.spotifyId}`,
-          { headers }
-        );
-        tracks.push(response.data);
-      } catch (error) {
-        console.error(
-          `Error fetching track: ${track.title}`,
-          error.response?.data || error.message
-        );
+    const allTracks = [];
+
+    // For each chunk, call /v1/tracks with a comma-separated list of IDs
+    for (const chunk of chunks) {
+      const idsParam = chunk.join(",");
+      // Optional: pass a `market` parameter if you want to filter availability, e.g. ?market=US
+      // const market = req.query.market || 'US';
+
+      const response = await axios.get(`${API_BASE_URL}/tracks`, {
+        headers,
+        params: {
+          ids: idsParam,
+          // market
+        },
+      });
+
+      // The response contains an array in response.data.tracks
+      if (response.data && Array.isArray(response.data.tracks)) {
+        allTracks.push(...response.data.tracks);
       }
     }
 
-    return res.json(tracks);
+    return res.json(allTracks);
   } catch (error) {
     console.error("Error in get playlist tracks from database:", error);
     res.status(500).json({ message: "Internal server error" });

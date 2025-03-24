@@ -30,9 +30,6 @@ const PlaylistCard = ({ playlist }) => {
       dispatch(fetchDeletePlaylist(playlist._id));
     }
   };
-  console.log("playlistId", playlist.id);
-  console.log("spotifyId", playlist.spotifyId);
-  console.log("id", playlist._id);
 
   return (
     <div
