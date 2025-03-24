@@ -110,13 +110,14 @@ const ActivityCard = ({ activity, onClick }) => {
   );
 };
 
-const DiscoverPlaylistCard = ({ playlist }) => {
+const DiscoverPlaylistCard = ({ playlist, onClick }) => {
   return (
     <div
       className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card group  transition-all duration-700 overflow-hidden cursor-pointer"
       style={{
         position: "relative",
       }}
+      onClick={onClick}
     >
       <div
         className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
@@ -174,6 +175,10 @@ const Discover = () => {
     navigate(`activity/${activity.title.replace(/\s+/g, "-")}`);
   };
 
+  const handlePlaylistClick = (playlist) => {
+    navigate(`/playlists/BM/${playlist._id}`);
+  };
+
   return (
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
       <div className="flex flex-col gap-5 p-5">
@@ -221,7 +226,11 @@ const Discover = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 container m-auto">
             {firstFourDiscoverPlaylists?.length ? (
               firstFourDiscoverPlaylists?.map((playlist) => (
-                <DiscoverPlaylistCard key={playlist.name} playlist={playlist} />
+                <DiscoverPlaylistCard
+                  key={playlist.name}
+                  playlist={playlist}
+                  onClick={() => handlePlaylistClick(playlist)}
+                />
               ))
             ) : (
               <p>No recently generated playlists</p>

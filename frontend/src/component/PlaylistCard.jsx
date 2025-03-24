@@ -30,7 +30,6 @@ const PlaylistCard = ({ playlist }) => {
       dispatch(fetchDeletePlaylist(playlist._id));
     }
   };
-  console.log("PLAYLIST", playlist);
   return (
     <div
       onClick={handlePlaylistClick}
