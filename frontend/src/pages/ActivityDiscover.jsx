@@ -19,7 +19,7 @@ const ActivityDiscover = () => {
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
       <div className="flex flex-col gap-5 container m-auto p-5">
         <h1>Mood Discover</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 container m-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 container m-auto">
           {playlists?.map((playlist) => (
             <PlaylistCard key={playlist._id} playlist={playlist} />
           ))}
