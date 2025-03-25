@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap');
+@import url('href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Quicksand:wght@300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 400;
+    color:white
+  }
+  p {
+    font-family: 'Libre Franklin', sans-serif;
+    color: #94a3b8
+  }
+}
+
+@layer components {
+  .title {
+    @apply font-['Fredoka'] font-bold;
+  }
+  .backContainer {
+    @apply bg-neutral-900;   
+  }
+  .discover-card {
+    @apply shadow-[0px_-150px_40px_-28px_rgba(0,0,0,0.75)_inset];
+  }
+}
+
+
