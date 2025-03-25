@@ -70,62 +70,82 @@ const Dashboard = () => {
     }
   };
 
-  // Helper function to render MoodCards or ActivityCards with selection handling
-  const renderCards = (items, selectedItem, setSelectedItem) => (
-    <div className="flex flex-wrap gap-5 items-center justify-center">
-      {items.map((item) => (
-        <MoodCard
-          key={item.name}
-          mood={item}
-          onClick={() => setSelectedItem(item.name)}
-          isSelected={selectedItem === item.name}
-        />
-      ))}
-    </div>
-  );
-
   return (
-    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
-      <div className="flex flex-col pb-5 items-center justify-center gap-5">
-        <h1 className="text-4xl">Create Your Perfect Playlist</h1>
-        <p className="font-bold">
+    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-3 md:gap-5">
+      <div className="flex flex-col pb-3 md:pb-5 items-center justify-center gap-3 md:gap-5 px-4 md:px-0">
+        <h1 className="text-2xl md:text-4xl text-center">
+          Create Your Perfect Playlist
+        </h1>
+        <p className="font-bold text-sm md:text-base text-center">
           Customized your playlist parameters and let AI do the magic
         </p>
       </div>
 
       {/* Playlist Creation Section */}
-      <div className="h-full w-[70%] m-auto p-5 flex flex-col gap-5 bg-[#090C14] rounded-3xl mb-10">
+      <div className="h-full w-[95%] md:w-[85%] lg:w-[70%] m-auto p-3 md:p-5 flex flex-col gap-4 md:gap-5 bg-[#090C14] rounded-xl md:rounded-3xl mb-10">
         {/* Mood Selection */}
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3 md:gap-5">
           <div className="flex flex-row gap-2 justify-start items-center">
-            <img src={moodIcon} alt="mood" className="w-10 h-10" />
-            <p className="text-slate-300 font-bold text-xl">Select Mood</p>
+            <img
+              src={moodIcon}
+              alt="mood"
+              className="w-8 h-8 md:w-10 md:h-10"
+            />
+            <p className="text-slate-300 font-bold text-lg md:text-xl">
+              Select Mood
+            </p>
           </div>
-          {renderCards(moods, selectedMood, setSelectedMood)}
+          <div className="flex flex-wrap gap-3 md:gap-5 items-center justify-center">
+            {moods.map((item) => (
+              <MoodCard
+                key={item.name}
+                mood={item}
+                onClick={() => setSelectedMood(item.name)}
+                isSelected={selectedMood === item.name}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Activity Selection */}
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3 md:gap-5">
           <div className="flex flex-row gap-2 justify-start items-center">
-            <img src={activityIcon} alt="activity" className="w-10 h-10" />
-            <p className="text-slate-300 font-bold text-xl">Choose Activity</p>
+            <img
+              src={activityIcon}
+              alt="activity"
+              className="w-8 h-8 md:w-10 md:h-10"
+            />
+            <p className="text-slate-300 font-bold text-lg md:text-xl">
+              Choose Activity
+            </p>
           </div>
-          {renderCards(activities, selectedActivity, setSelectedActivity)}
+          <div className="flex flex-wrap gap-3 md:gap-5 items-center justify-center">
+            {activities.map((item) => (
+              <MoodCard
+                key={item.name}
+                mood={item}
+                onClick={() => setSelectedActivity(item.name)}
+                isSelected={selectedActivity === item.name}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Favorite Artists & Genres (SearchBar) */}
-        <div className="flex flex-col gap-5">
-          <p className="text-slate-300 font-bold text-xl">
+        <div className="flex flex-col gap-3 md:gap-5">
+          <p className="text-slate-300 font-bold text-lg md:text-xl">
             Favorite Artists & Genres
           </p>
           <SearchBar onSelectedItemsChange={setSelectedItems} />
         </div>
 
         {/* Playlist Length Selection */}
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3 md:gap-5">
           <div className="flex justify-between items-center">
-            <p className="text-slate-300 font-bold">Playlist Length</p>
-            <span className="text-purple-500/80 font-bold">
+            <p className="text-slate-300 font-bold text-sm md:text-base">
+              Playlist Length
+            </p>
+            <span className="text-purple-500/80 font-bold text-sm md:text-base">
               {selectedLength} Songs
             </span>
           </div>
@@ -156,7 +176,7 @@ const Dashboard = () => {
               [&::-moz-range-thumb]:transition-all
               [&::-moz-range-thumb]:hover:scale-150"
           />
-          <div className="flex justify-between text-xs text-slate-400">
+          <div className="flex justify-between text-[10px] md:text-xs text-slate-400">
             <span>10 songs</span>
             <span>30 songs</span>
           </div>
@@ -164,11 +184,11 @@ const Dashboard = () => {
 
         {/* Generate Playlist Button */}
         <button
-          className={`px-5 py-2 rounded-lg mt-5 ${
+          className={`px-4 md:px-5 py-2 rounded-lg mt-3 md:mt-5 ${
             isLoading
               ? "bg-gray-500 cursor-not-allowed"
-              : "bg-[#10B981] cursor-pointer hover:bg-[#2a8b6b] transition-colors"
-          } text-white`}
+              : "bg-[#7C3AED] cursor-pointer hover:bg-[#8a51ee] transition-colors"
+          } text-white text-sm md:text-base`}
           onClick={handleGeneratePlaylist}
           disabled={isLoading}
         >

@@ -29,31 +29,37 @@ const TrackCard = ({ track }) => {
 
   return (
     <div
-      className="grid grid-cols-[6fr_3fr_3fr_1fr] p-1 text-white font-bold rounded-xl justify-center items-center hover:bg-slate-800 hover:translate-x-1 transform transition-all cursor-pointer "
+      className="relative grid grid-cols-[auto_1fr_auto] md:grid-cols-[6fr_3fr_3fr_1fr] p-3 md:p-2 text-white font-bold rounded-xl items-center hover:bg-slate-800 hover:translate-x-1 transform transition-all cursor-pointer gap-3 md:gap-4"
       onClick={() => window.open(spotifyUrl, "_blank")}
     >
-      <div className="flex flex-row justify-center gap-5 items-center">
+      <div className="col-span-2 md:col-span-1 flex items-center gap-3 max-w-full">
         {albumImage && (
           <img
             src={albumImage}
             alt={trackName}
-            className="h-[70px] object-cover rounded-md"
+            className="h-[45px] md:h-[60px] w-[45px] md:w-[60px] object-cover rounded-md flex-shrink-0"
           />
         )}
-        <div className="flex flex-col justify-between flex-1">
-          <h3 className="text-[1.5rem]">{trackName}</h3>
-          <p className="text-slate-400 text-[1.1rem]">{artistsString}</p>
+        <div className="min-w-0 flex-1 overflow-hidden">
+          <h3 className="text-sm md:text-lg font-bold line-clamp-1">
+            {trackName}
+          </h3>
+          <p className="text-xs md:text-sm text-slate-400 line-clamp-1">
+            {artistsString}
+          </p>
         </div>
       </div>
-      <div className="flex flex-col justify-between">
-        <p className="text-slate-400 text-[1.1rem]">{artistName}</p>
-      </div>
-      <div className="flex flex-col justify-between">
-        <p className="text-slate-400 text-[1.1rem]">{albumName}</p>
+
+      <div className="hidden md:block overflow-hidden">
+        <p className="text-sm text-slate-400 line-clamp-1">{artistName}</p>
       </div>
 
-      <div className="flex flex-col justify-between">
-        <p className="text-slate-400 text-[1.1rem] pr-5">
+      <div className="hidden md:block overflow-hidden">
+        <p className="text-sm text-slate-400 line-clamp-1">{albumName}</p>
+      </div>
+
+      <div className="text-right flex-shrink-0">
+        <p className="text-xs md:text-sm text-slate-400">
           {handleDuration(track.duration_ms || 0)}
         </p>
       </div>

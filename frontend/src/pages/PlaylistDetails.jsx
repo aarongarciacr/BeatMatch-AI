@@ -24,11 +24,11 @@ const PlaylistDetails = () => {
             <>
               <PlaylistCard2 playlist={playlist} />
               <div className=" p-5 rounded-3xl">
-                <div className="grid grid-cols-[6fr_3fr_3fr_1fr] py-2 pl-2 text-white font-bold border-b-2 border-slate-500 mb-4">
+                <div className="grid grid-cols-[1fr_1fr] md:grid-cols-[6fr_3fr_3fr_1fr] py-2 pl-2 text-white font-bold border-b-2 border-slate-500 mb-4">
                   <p>TITLE</p>
-                  <p>ARTIST</p>
-                  <p>ALBUM</p>
-                  <p>TIME</p>
+                  <p className="hidden md:block">ARTIST</p>
+                  <p className="hidden md:block">ALBUM</p>
+                  <p className="text-end">TIME</p>
                 </div>
                 {playlist?.tracks?.items?.map((track) => (
                   <TrackCard key={track.track.id} track={track.track} />
