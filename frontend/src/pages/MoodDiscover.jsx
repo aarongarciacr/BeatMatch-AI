@@ -9,12 +9,10 @@ const MoodDiscover = () => {
   const dispatch = useDispatch();
   const mood = useParams().mood;
   const playlists = useSelector((state) => state.playlists?.moodPlaylists);
-  console.log("mood", mood);
   useEffect(() => {
     dispatch(fetchGetPlaylistByMood(mood));
   }, [dispatch, mood]);
 
-  console.log("playlists", playlists);
   return (
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
       <div className="flex flex-col gap-5 container m-auto p-5">

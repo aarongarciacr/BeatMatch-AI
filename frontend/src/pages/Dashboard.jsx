@@ -43,8 +43,6 @@ const Dashboard = () => {
       length: parseInt(selectedLength) || 10,
     };
 
-    console.log("Sending to backend:", requestBody);
-
     try {
       const response = await fetch("/api/playlists/generate", {
         method: "POST",

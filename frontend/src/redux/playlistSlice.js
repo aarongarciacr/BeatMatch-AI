@@ -257,7 +257,6 @@ export const fetchGetPlaylistByMood = (mood) => async (dispatch) => {
 
   if (response.ok) {
     const playlists = await response.json();
-    console.log("playlistsReducer", playlists);
     dispatch(getPlaylistByMood(playlists));
     return playlists;
   }

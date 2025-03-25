@@ -1,14 +1,10 @@
 import SpotifyWhiteLogo from "../assets/Spotify_Primary_Logo_RGB_White.png";
 
 const PlaylistCard2 = ({ playlist }) => {
-  console.log("playlist", playlist);
-
   const handleSpotifyClick = (e) => {
     e.stopPropagation();
     window.open(playlist.external_urls.spotify, "_blank");
   };
-
-  console.log("name", playlist.name);
 
   const playlistDuration = playlist?.tracks?.items?.reduce(
     (acc, item) => acc + item.track.duration_ms,

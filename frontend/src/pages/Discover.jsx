@@ -148,7 +148,6 @@ const Discover = () => {
     (state) => state?.playlists?.aiPlaylists?.playlists
   );
 
-  console.log("firstFourDiscoverPlaylists", firstFourDiscoverPlaylists);
   useEffect(() => {
     document.title = "Discover - Spotify";
 

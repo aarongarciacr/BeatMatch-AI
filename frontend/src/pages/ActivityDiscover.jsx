@@ -9,12 +9,10 @@ const ActivityDiscover = () => {
   const dispatch = useDispatch();
   const activity = useParams().activity;
   const playlists = useSelector((state) => state.playlists?.activityPlaylists);
-  console.log("activity", activity);
   useEffect(() => {
     dispatch(fetchGetPlaylistByActivity(activity));
   }, [dispatch, activity]);
 
-  console.log("playlists", playlists);
   return (
     <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
       <div className="flex flex-col gap-5 container m-auto p-5">
