@@ -62,7 +62,7 @@ const activityCardData = [
 const DiscoverMoodCard = ({ mood, onClick }) => {
   return (
     <div
-      className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card group relative transition-all duration-700 overflow-hidden cursor-pointer"
+      className="h-full w-full rounded-xl flex items-end justify-start p-5 discover-card group relative transition-all duration-700 overflow-hidden cursor-pointer"
       onClick={onClick}
     >
       <div
@@ -89,20 +89,20 @@ const DiscoverMoodCard = ({ mood, onClick }) => {
 const ActivityCard = ({ activity, onClick }) => {
   return (
     <div
-      className="flex items-start p-5 gap-5 bg-[#18212f] rounded-3xl group transition-all duration-700 cursor-pointer"
+      className="flex flex-col sm:flex-row items-center sm:items-start p-3 sm:p-5 gap-3 sm:gap-5 bg-[#18212f] rounded-3xl group transition-all duration-700 cursor-pointer"
       onClick={onClick}
     >
       <div
-        className="h-14 w-14 rounded-md flex items-center justify-center group-hover:scale-110 transition-all duration-300"
+        className="h-12 w-12 sm:h-14 sm:w-14 rounded-md flex items-center justify-center group-hover:scale-110 transition-all duration-300"
         style={{ background: activity.color, color: activity.iconColor }}
       >
         {activity?.img}
       </div>
-      <div className="flex flex-col ">
-        <h1 className="text-2xl text-slate-200 group-hover:text-[1.8rem] transition-all duration-300 font-bold">
+      <div className="flex flex-col text-center sm:text-left">
+        <h1 className="text-xl sm:text-2xl text-slate-200 group-hover:text-[1.8rem] transition-all duration-300 font-bold">
           {activity?.title}
         </h1>
-        <p className="text-slate-400 font-bold group-hover:text-[1.1rem] transition-all duration-300">
+        <p className="text-sm sm:text-base text-slate-400 font-bold group-hover:text-[1.1rem] transition-all duration-300">
           {activity?.description}
         </p>
       </div>
@@ -113,7 +113,7 @@ const ActivityCard = ({ activity, onClick }) => {
 const DiscoverPlaylistCard = ({ playlist, onClick }) => {
   return (
     <div
-      className="h-[23em] w-[23em] rounded-xl flex items-end justify-start p-5 discover-card group  transition-all duration-700 overflow-hidden cursor-pointer"
+      className="h-full w-full rounded-xl flex items-end justify-start p-5 discover-card group transition-all duration-700 overflow-hidden cursor-pointer"
       style={{
         position: "relative",
       }}
@@ -195,7 +195,7 @@ const Discover = () => {
         {/* Discover Playlists by Mood*/}
         <div className="flex flex-col gap-10 container m-auto pb-10">
           <h2 className="text-3xl">Based on Your Mood</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 container m-auto">
+          <div className="h-[40em] sm:h-[20em] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto px-4">
             {moodCardData.map((mood) => (
               <DiscoverMoodCard
                 key={mood.title}
@@ -223,7 +223,7 @@ const Discover = () => {
         {/* Discover Recently Generated Playlists*/}
         <div className="flex flex-col gap-10 container m-auto pb-10">
           <h2 className="text-3xl">Recently Generated</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 container m-auto">
+          <div className="h-[20em] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6 container mx-auto px-4">
             {firstFourDiscoverPlaylists?.length ? (
               firstFourDiscoverPlaylists?.map((playlist) => (
                 <DiscoverPlaylistCard
