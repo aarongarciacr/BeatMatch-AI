@@ -111,11 +111,11 @@ const Playlists = () => {
   }
 
   return (
-    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
-      <div className="flex flex-col gap-5 container m-auto p-5">
-        <div className="flex flex-row gap-5">
+    <div className="h-full min-h-screen pt-[100px]  w-full flex flex-col backContainer gap-3 sm:gap-5">
+      <div className="flex flex-col gap-3 sm:gap-5 container mx-auto px-4 sm:p-5">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-5">
           <button
-            className="bg-[#1F2937] hover:bg-[#263344] px-4 py-2 rounded-full flex flex-row"
+            className="bg-[#1F2937] hover:bg-[#263344] px-3 sm:px-4 py-2 rounded-full flex flex-row items-center justify-center"
             style={{
               backgroundColor: isSelected === "Spotify" ? "#103630" : "",
             }}
@@ -124,13 +124,15 @@ const Playlists = () => {
             <img
               src={SpotifyGreenLogo}
               alt="Spotify Logo"
-              className="h-5 w-5 mx-2"
+              className="h-4 w-4 sm:h-5 sm:w-5 mx-1 sm:mx-2"
             />
-            <p className="text-[#1ED760] font-bold mr-2">Spotify Playlist</p>
+            <p className="text-[#1ED760] font-bold text-sm sm:text-base">
+              Spotify Playlist
+            </p>
           </button>
 
           <button
-            className="bg-[#1F2937] hover:bg-[#263344] px-4 py-2 rounded-full flex flex-row"
+            className="bg-[#1F2937] hover:bg-[#263344] px-3 sm:px-4 py-2 rounded-full flex flex-row items-center justify-center"
             style={{
               backgroundColor: isSelected === "AI" ? "#33205e" : "",
             }}
@@ -138,15 +140,15 @@ const Playlists = () => {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="lucide lucide-wand-sparkles text-[#8B5CF6] mx-2"
+              className="lucide lucide-wand-sparkles text-[#8B5CF6] mx-1 sm:mx-2 sm:w-[22px] sm:h-[22px]"
             >
               <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72" />
               <path d="m14 7 3 3" />
@@ -157,18 +159,20 @@ const Playlists = () => {
               <path d="M21 16h-4" />
               <path d="M11 3H9" />
             </svg>
-            <p className="text-[#8B5CF6] font-bold mr-2">AI Generated</p>{" "}
+            <p className="text-[#8B5CF6] font-bold text-sm sm:text-base">
+              AI Generated
+            </p>
           </button>
         </div>
 
         {/* Total Count */}
         {isSelected === "Spotify" ? (
-          <p className="text-slate-400">
+          <p className="text-slate-400 text-sm sm:text-base">
             Showing {offset + 1} - {Math.min(offset + limit, total)} of {total}{" "}
             playlists
           </p>
         ) : (
-          <p className="text-slate-400">
+          <p className="text-slate-400 text-sm sm:text-base">
             Showing {(page - 1) * limit + 1} -{" "}
             {Math.min(page * limit, aiPlaylists?.pagination?.totalItems)} of{" "}
             {aiPlaylists?.pagination?.totalItems} playlists
@@ -176,7 +180,7 @@ const Playlists = () => {
         )}
 
         {/* Playlists Grid */}
-        <div className="gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div className="gap-4 sm:gap-6 md:gap-8 lg:gap-10 grid grid-cols-1 m-auto sm:-m-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {spotifyPlaylists &&
             isSelected === "Spotify" &&
             spotifyPlaylists?.map((playlist) => (
@@ -191,15 +195,15 @@ const Playlists = () => {
         </div>
 
         {/* Pagination Controls */}
-        <div className="mt-5 flex justify-center gap-5">
+        <div className="mt-3 sm:mt-5 flex justify-center items-center gap-2 sm:gap-5 flex-wrap">
           <p
             onClick={handleFirstPage}
-            className="cursor-pointer font-bold text-slate-400"
+            className="cursor-pointer font-bold text-slate-400 text-sm sm:text-base"
           >
             First
           </p>
           <button
-            className={`px-4 py-2 rounded ${
+            className={`px-2 sm:px-4 py-1 sm:py-2 rounded text-sm sm:text-base ${
               (isSelected === "Spotify" && previous) ||
               (isSelected === "AI" && page > 1)
                 ? "bg-green-500 hover:bg-green-600"
@@ -215,7 +219,7 @@ const Playlists = () => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded ${
+            className={`px-2 sm:px-4 py-1 sm:py-2 rounded text-sm sm:text-base ${
               (isSelected === "Spotify" && next) ||
               (isSelected === "AI" && page < aiPlaylists.pagination.totalPages)
                 ? "bg-green-500 hover:bg-green-600"
@@ -232,7 +236,7 @@ const Playlists = () => {
           </button>
           <p
             onClick={handleLastPage}
-            className="cursor-pointer font-bold text-slate-400"
+            className="cursor-pointer font-bold text-slate-400 text-sm sm:text-base"
           >
             Last
           </p>
