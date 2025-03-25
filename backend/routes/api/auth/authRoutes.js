@@ -8,6 +8,7 @@ const User = require("../../../models/User");
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
+const FRONTEND_URI = process.env.FRONTEND_URI;
 
 const AUTH_URL = "https://accounts.spotify.com/authorize";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
@@ -90,7 +91,7 @@ router.get("/callback", async (req, res) => {
     );
 
     // Redirect with success parameter
-    return res.redirect("http://localhost:5173/discover");
+    return res.redirect(FRONTEND_URI);
   } catch (error) {
     console.error("Auth callback error:", error);
     return res.redirect("http://localhost:5173/?loginSuccess=false");
