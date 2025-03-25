@@ -1,6 +1,6 @@
 import WhiteLogo from "../assets/Primary_Logo_White_CMYK.svg";
 import FeatureCard from "../component/FeatureCard";
-import Mood from "../assets/mood.svg";
+import Mood from "../assets/Mood.svg";
 import Sprint from "../assets/sprint.svg";
 import Tune from "../assets/tune.svg";
 import BG from "../assets/bg-img.jpg";
