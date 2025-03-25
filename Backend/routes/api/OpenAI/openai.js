@@ -40,7 +40,6 @@ const generatePlaylist = async (
         ...
       ]
     `;
-    console.log("prompt", prompt);
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "system", content: prompt }],
