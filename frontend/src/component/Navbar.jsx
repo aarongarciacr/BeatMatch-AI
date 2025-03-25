@@ -1,16 +1,22 @@
 import { useSelector } from "react-redux";
 import WhiteLogo from "../assets/Primary_Logo_White_CMYK.svg";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const user = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate();
   const location = useLocation();
+  const profileDropdownRef = useRef(null);
 
   const handleLogin = () => {
     window.location.href = "/api/auth/login"; // Redirects the user to Spotify login
+  };
+
+  const handleLogout = () => {
+    window.location.href = "/api/auth/logout"; // Redirects the user to logout endpoint
   };
 
   const handleLogo = () => navigate("/");
@@ -26,6 +32,25 @@ const Navbar = () => {
   };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleProfileDropdown = () =>
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="navbar h-[80px] w-dvw bg-black text-slate-200 fixed top-0 z-50 border-b-2 border-neutral-800">
@@ -92,13 +117,49 @@ const Navbar = () => {
                   Generate
                 </p>
               </div>
-              <div className="flex items-center">
-                <img
-                  className="avatar h-[2.5em] rounded-full mr-2"
-                  src={user?.images[0]?.url}
-                  alt={user?.display_name}
-                />
-                <p className="font-bold">{user?.display_name}</p>
+              <div
+                className="flex items-center relative"
+                ref={profileDropdownRef}
+              >
+                <div
+                  className="flex items-center cursor-pointer"
+                  onClick={toggleProfileDropdown}
+                >
+                  <img
+                    className="avatar h-[2.5em] rounded-full mr-2"
+                    src={user?.images[0]?.url}
+                    alt={user?.display_name}
+                  />
+                  <p className="font-bold">{user?.display_name}</p>
+                  <svg
+                    className={`w-4 h-4 ml-1 transition-transform ${
+                      isProfileDropdownOpen ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+
+                {/* Profile Dropdown */}
+                {isProfileDropdownOpen && (
+                  <div className="absolute right-0 mt-2 top-full w-48 bg-neutral-800 rounded-md shadow-lg py-1 z-50">
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-neutral-700"
+                    >
+                      Log out
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -150,6 +211,12 @@ const Navbar = () => {
                     alt={user?.display_name}
                   />
                   <p className="font-bold">{user?.display_name}</p>
+                  <button
+                    onClick={handleLogout}
+                    className="mt-4 px-4 py-2 bg-neutral-800 rounded-md hover:bg-neutral-700 text-white"
+                  >
+                    Log out
+                  </button>
                 </div>
               </div>
             </div>

@@ -8,7 +8,10 @@ const User = require("../../../models/User");
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
-const FRONTEND_URI = process.env.FRONTEND_URI;
+const FRONTEND_URI =
+  process.env.NODE_ENV === "production"
+    ? "https://beatmatch-ai.onrender.com"
+    : "http://localhost:5173";
 
 const AUTH_URL = "https://accounts.spotify.com/authorize";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
@@ -89,7 +92,7 @@ router.get("/callback", async (req, res) => {
       },
       { upsert: true }
     );
-
+    console.log("front end uri", FRONTEND_URI);
     // Redirect with success parameter
     return res.redirect(FRONTEND_URI);
   } catch (error) {
@@ -147,6 +150,12 @@ router.get("/user", reqAuth, async (req, res) => {
     console.error("Error in fetch user:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
+});
+
+//Logout
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect(FRONTEND_URI);
 });
 
 module.exports = router;
