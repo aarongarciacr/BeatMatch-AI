@@ -148,6 +148,10 @@ const Discover = () => {
     (state) => state?.playlists?.aiPlaylists?.playlists
   );
 
+  if (!user) {
+    navigate("/login");
+  }
+
   useEffect(() => {
     document.title = "Discover - Spotify";
 
