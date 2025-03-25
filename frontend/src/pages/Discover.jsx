@@ -195,7 +195,7 @@ const Discover = () => {
         {/* Discover Playlists by Mood*/}
         <div className="flex flex-col gap-10 container m-auto pb-10">
           <h2 className="text-3xl">Based on Your Mood</h2>
-          <div className="h-[40em] sm:h-[20em] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto px-4">
+          <div className="h-[40em] sm:h-[20em] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 container mx-auto px-4">
             {moodCardData.map((mood) => (
               <DiscoverMoodCard
                 key={mood.title}
@@ -223,7 +223,7 @@ const Discover = () => {
         {/* Discover Recently Generated Playlists*/}
         <div className="flex flex-col gap-10 container m-auto pb-10">
           <h2 className="text-3xl">Recently Generated</h2>
-          <div className="h-[20em] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6 container mx-auto px-4">
+          <div className="h-[20em] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-6 container mx-auto px-4">
             {firstFourDiscoverPlaylists?.length ? (
               firstFourDiscoverPlaylists?.map((playlist) => (
                 <DiscoverPlaylistCard
