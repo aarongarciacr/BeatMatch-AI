@@ -36,65 +36,72 @@ const Login = () => {
   };
 
   return (
-    <div className=" flex flex-col h-full bg-[#111827] w-full m-auto">
+    <div className="flex flex-col h-full bg-[#111827] w-full m-auto">
       <div
-        className="h-[100vh] w-full flex pt-[15em] pl-[7em]"
+        className="min-h-[100vh] w-full flex items-center  pt-[100px] px-4 sm:px-8 md:px-12 lg:px-16"
         style={{
           backgroundImage: `url(${BG})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="h-[50vh] flex flex-col items-start justify-center gap-10">
-          <div>
-            <h1 className="text-6xl text-white ">Smart Playlist for Every</h1>
-            <h1 className="text-6xl text-white">Moment</h1>
+        <div className="flex flex-col items-center md:items-start justify-center gap-5 md:gap-8 max-w-4xl mx-auto md:mx-0 py-10 md:py-0">
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white">
+              Smart Playlist for Every
+            </h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white">
+              Moment
+            </h1>
           </div>
-          <p className="text-white text-[1.5em] font-bold">
+          <p className="text-white text-lg sm:text-xl md:text-2xl font-bold text-center md:text-left">
             Let AI create the perfect playlist that matches your mood, activity
             and music taste.
           </p>
 
           <button
-            className=" bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+            className="bg-[#1ED760] text-white px-5 py-2 rounded-full font-bold flex items-center justify-center space-x-2 hover:bg-[#19b050] transition-colors"
             onClick={handleLogin}
           >
             <img
               src={WhiteLogo}
               alt="Spotify Logo"
-              className="w-6 h-6 inline-block mr-2"
+              className="w-5 h-5 inline-block"
             />
-            Connect with Spotify
+            <span>Connect with Spotify</span>
           </button>
         </div>
       </div>
-      <div className="flex justify-around gap-10 p-10">
+
+      <div className="flex flex-col md:flex-row justify-around gap-6 p-4 sm:p-6 md:p-8 lg:p-10">
         {Features.map((feature, index) => (
           <FeatureCard key={index} feature={feature} />
         ))}
       </div>
-      <div className="h-[50vh] bg-neutral-900">
-        <div className="flex flex-col items-center justify-center gap-10 h-full w-[70%] m-auto">
-          <h1 className="text-5xl text-white text-center">
+
+      <div className="py-12 sm:py-16 md:py-20 bg-neutral-900">
+        <div className="flex flex-col items-center justify-center gap-6 md:gap-10 h-full w-[90%] md:w-[80%] lg:w-[70%] m-auto">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl text-white text-center">
             Ready to Transform Your Listening Experience?
           </h1>
-          <p className="text-slate-200 font-bold text-[1.2rem]">
+          <p className="text-slate-200 font-bold text-base sm:text-lg md:text-xl text-center">
             Join thousands of music lovers whe've discovered their perfect
             playlist with BeatMatch AI.
           </p>
           <button
-            className=" bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+            className="bg-[#1ED760] text-white px-5 py-2 rounded-full font-bold flex items-center justify-center space-x-2 hover:bg-[#19b050] transition-colors"
             onClick={handleLogin}
           >
             <img
               src={WhiteLogo}
               alt="Spotify Logo"
-              className="w-6 h-6 inline-block mr-2"
+              className="w-5 h-5 inline-block"
             />
-            Get Started Free
+            <span>Get Started Free</span>
           </button>
         </div>
       </div>
+
       <Footer1 />
     </div>
   );
