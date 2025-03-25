@@ -11,7 +11,7 @@ const REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
 const FRONTEND_URI =
   process.env.NODE_ENV === "production"
     ? "https://beatmatch-ai.onrender.com/discover"
-    : "http://localhost:5173/dicover";
+    : "http://localhost:5173/discover";
 
 const AUTH_URL = "https://accounts.spotify.com/authorize";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
