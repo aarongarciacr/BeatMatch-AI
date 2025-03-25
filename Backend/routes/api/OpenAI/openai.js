@@ -18,7 +18,7 @@ const generatePlaylist = async (
       length = 10; // Default to 10 songs if input is missing or invalid
     }
 
-    const prompt = `You are a playlist generator AI. Create a playlist with exactly ${length} songs based on:
+    const prompt = `You are a playlist generator AI. Create a playlist with exactly ${length} songs based on :
     - Mood: "${mood}"
     - Activity: "${activity}"
     - Favorite Genres And Artist: ${favoriteGenresAndArtists.join(", ")}
