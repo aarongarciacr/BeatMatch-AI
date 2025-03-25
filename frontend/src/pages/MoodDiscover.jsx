@@ -14,10 +14,12 @@ const MoodDiscover = () => {
   }, [dispatch, mood]);
 
   return (
-    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-5">
-      <div className="flex flex-col gap-5 container m-auto p-5">
-        <h1>Mood Discover</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 container m-auto">
+    <div className="h-full min-h-screen pt-[100px] w-full flex flex-col backContainer gap-3 sm:gap-5">
+      <div className="flex flex-col gap-3 sm:gap-5 container mx-auto px-4 sm:p-5">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white">
+          The perfect playlist to match your current mood
+        </h1>
+        <div className="gap-4 sm:gap-6 md:gap-8 lg:gap-10 grid grid-cols-1 m-auto sm:-m-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {playlists?.map((playlist) => (
             <PlaylistCard key={playlist._id} playlist={playlist} />
           ))}
