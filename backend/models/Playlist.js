@@ -17,6 +17,10 @@ const PlaylistSchema = new mongoose.Schema({
   activity: String,
   length: Number,
   image: String,
+  isFollowed: {
+    type: Boolean,
+    default: false,
+  },
   tracks: [
     {
       uri: String,

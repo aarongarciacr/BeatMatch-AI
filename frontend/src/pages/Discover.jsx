@@ -66,7 +66,7 @@ const DiscoverMoodCard = ({ mood, onClick }) => {
       onClick={onClick}
     >
       <div
-        className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
+        className="absolute inset-0 transition-transform duration-700 md:group-hover:scale-110"
         style={{
           backgroundImage: `url(${mood?.img})`,
           backgroundSize: "cover",
@@ -75,7 +75,7 @@ const DiscoverMoodCard = ({ mood, onClick }) => {
         }}
       />
       <div className="font-bold relative z-10">
-        <h3 className="font-bold text-slate-200 text-[1.3rem] transition-all duration-300 group-hover:text-[1.8rem] shadow-2xl">
+        <h3 className="font-bold text-slate-200 text-[1.3rem] transition-all duration-300 md:group-hover:text-[1.8rem] shadow-2xl">
           {mood?.title}
         </h3>
         <p className="transition-all duration-300 group-hover:text-[1.1rem]">
