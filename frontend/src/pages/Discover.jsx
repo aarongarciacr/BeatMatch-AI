@@ -78,7 +78,7 @@ const DiscoverMoodCard = ({ mood, onClick }) => {
         <h3 className="font-bold text-slate-200 text-[1.3rem] transition-all duration-300 md:group-hover:text-[1.8rem] shadow-2xl">
           {mood?.title}
         </h3>
-        <p className="transition-all duration-300 group-hover:text-[1.1rem]">
+        <p className="transition-all duration-300 md:group-hover:text-[1.1rem]">
           {mood?.description}
         </p>
       </div>
