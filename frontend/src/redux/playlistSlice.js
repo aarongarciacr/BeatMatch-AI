@@ -3,7 +3,8 @@ const GET_PLAYLISTS = "playlists/GET_PLAYLISTS";
 const GET_PLAYLIST_DETAILS = "playlists/GET_PLAYLIST_DETAILS";
 const CREATE_PLAYLIST = "playlists/CREATE_PLAYLIST";
 const UPDATE_PLAYLIST = "playlists/UPDATE_PLAYLIST";
-const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
+const DELETE_PLAYLIST_DB = "playlists/DELETE_PLAYLIST_DB";
+const DELETE_PLAYLIST_SPOTIFY = "playlists/DELETE_PLAYLIST_SPOTIFY";
 const GENERATE_PLAYLIST = "playlists/GENERATE_PLAYLIST";
 const SET_PAGINATION = "playlists/SET_PAGINATION";
 const GET_GENERATED_PLAYLIST = "playlists/GET_GENERATED_PLAYLIST";
@@ -35,8 +36,13 @@ const updatePlaylist = (playlist) => ({
   playlist,
 });
 
-const deletePlaylist = (playlistId) => ({
-  type: DELETE_PLAYLIST,
+const deletePlaylistDB = (playlistId) => ({
+  type: DELETE_PLAYLIST_DB,
+  playlistId,
+});
+
+const deletePlaylistSpotify = (playlistId) => ({
+  type: DELETE_PLAYLIST_SPOTIFY,
   playlistId,
 });
 
@@ -226,14 +232,25 @@ export const fetchGetAIPlaylists =
     }
   };
 
-export const fetchDeletePlaylist = (playlistId) => async (dispatch) => {
+export const fetchDeletePlaylistDB = (playlistId) => async (dispatch) => {
+  const response = await fetch(`/api/playlists/db/${playlistId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    dispatch(deletePlaylistDB(playlistId));
+  }
+};
+
+export const fetchDeletePlaylistSpotify = (playlistId) => async (dispatch) => {
   const response = await fetch(`/api/playlists/${playlistId}`, {
     method: "DELETE",
     credentials: "include",
   });
 
   if (response.ok) {
-    dispatch(deletePlaylist(playlistId));
+    dispatch(deletePlaylistDB(playlistId));
   }
 };
 
@@ -302,7 +319,14 @@ const playlistReducer = (state = initialState, action) => {
           playlist.id === action.playlist.id ? action.playlist : playlist
         ),
       };
-    case DELETE_PLAYLIST:
+    case DELETE_PLAYLIST_DB:
+      return {
+        ...state,
+        items: state.items.filter(
+          (playlist) => playlist.id !== action.playlistId
+        ),
+      };
+    case DELETE_PLAYLIST_SPOTIFY:
       return {
         ...state,
         items: state.items.filter(

@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import SpotifyGreenLogo from "../assets/Spotify_Primary_Logo_RGB_Green.png";
-import { fetchDeletePlaylist } from "../redux/playlistSlice";
+import {
+  fetchDeletePlaylistDB,
+  fetchDeletePlaylistSpotify,
+} from "../redux/playlistSlice";
 
 const PlaylistCard = ({ playlist }) => {
+  console.log("playlist", playlist);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,12 +27,17 @@ const PlaylistCard = ({ playlist }) => {
 
   const handleDeleteClick = (e) => {
     e.stopPropagation();
-    if (playlist.id) {
-      dispatch(fetchDeletePlaylist(playlist.id));
-    } else if (playlist.spotifyId) {
-      dispatch(fetchDeletePlaylist(playlist.spotifyId));
-    } else {
-      dispatch(fetchDeletePlaylist(playlist._id));
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this playlist?"
+    );
+
+    if (confirmDelete) {
+      if (playlist._id) {
+        dispatch(fetchDeletePlaylistDB(playlist._id));
+      } else {
+        dispatch(fetchDeletePlaylistSpotify(playlist.id));
+      }
     }
   };
   return (

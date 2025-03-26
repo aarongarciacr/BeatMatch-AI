@@ -305,9 +305,28 @@ router.put("/:playlistId", reqAuth, async (req, res) => {
   }
 });
 
-//Delete Playlist
-const mongoose = require("mongoose");
+//Delete Playlist from Database (AI Playlist)
+router.delete("/db/:playlistId", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
 
+    const playlist = await Playlist.findByIdAndDelete(playlistId);
+
+    if (!playlist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+
+    return res.json({
+      message: "Playlist deleted successfully",
+      playlist: playlist,
+    });
+  } catch (error) {
+    console.error("Error in delete playlist from database:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Delete Playlist from Spotify
 router.delete("/:playlistId", reqAuth, async (req, res) => {
   try {
     const playlistId = req.params.playlistId;
@@ -315,36 +334,17 @@ router.delete("/:playlistId", reqAuth, async (req, res) => {
       Authorization: `Bearer ${req.session.access_token}`,
     };
 
-    // Build query based on whether playlistId is a valid ObjectId
-    const query = { userId: req.user.spotifyId };
-    if (mongoose.Types.ObjectId.isValid(playlistId)) {
-      query.$or = [{ spotifyId: playlistId }, { _id: playlistId }];
-    } else {
-      query.$or = [{ spotifyId: playlistId }];
-    }
-
-    // Delete from database using the constructed query
-    const _aiPlaylist = await Playlist.findOneAndDelete(query);
-    if (!_aiPlaylist) {
-      return res
-        .status(404)
-        .json({ message: "Playlist not found in database" });
-    }
-
-    // If the playlist has a Spotify ID, unfollow it on Spotify
-    if (_aiPlaylist.spotifyId) {
-      await axios.delete(
-        `${API_BASE_URL}/playlists/${_aiPlaylist.spotifyId}/followers`,
-        { headers }
-      );
-    }
+    const playlistResponse = await axios.delete(
+      `${API_BASE_URL}/playlists/${playlistId}/followers`,
+      { headers }
+    );
 
     return res.json({
       message: "Playlist deleted successfully",
-      playlist: _aiPlaylist,
+      playlist: playlistResponse.data,
     });
   } catch (error) {
-    console.error("Error in delete playlist:", error);
+    console.error("Error in delete playlist from Spotify:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
