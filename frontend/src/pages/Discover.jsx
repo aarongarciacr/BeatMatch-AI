@@ -93,16 +93,16 @@ const ActivityCard = ({ activity, onClick }) => {
       onClick={onClick}
     >
       <div
-        className="h-12 w-12 sm:h-14 sm:w-14 rounded-md flex items-center justify-center group-hover:scale-110 transition-all duration-300"
+        className="h-12 w-12 sm:h-14 sm:w-14 rounded-md flex items-center justify-center md:group-hover:scale-110 transition-all duration-300"
         style={{ background: activity.color, color: activity.iconColor }}
       >
         {activity?.img}
       </div>
       <div className="flex flex-col text-center sm:text-left">
-        <h1 className="text-xl sm:text-2xl text-slate-200 group-hover:text-[1.8rem] transition-all duration-300 font-bold">
+        <h1 className="text-xl sm:text-2xl text-slate-200 md:group-hover:text-[1.8rem] transition-all duration-300 font-bold">
           {activity?.title}
         </h1>
-        <p className="text-sm sm:text-base text-slate-400 font-bold group-hover:text-[1.1rem] transition-all duration-300">
+        <p className="text-sm sm:text-base text-slate-400 font-bold md:group-hover:text-[1.1rem] transition-all duration-300">
           {activity?.description}
         </p>
       </div>
@@ -120,7 +120,7 @@ const DiscoverPlaylistCard = ({ playlist, onClick }) => {
       onClick={onClick}
     >
       <div
-        className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
+        className="absolute inset-0 transition-transform duration-700 md:group-hover:scale-110"
         style={{
           backgroundImage: `url(${playlist?.image})`,
           backgroundSize: "cover",
@@ -129,10 +129,10 @@ const DiscoverPlaylistCard = ({ playlist, onClick }) => {
         }}
       />
       <div className="font-bold relative z-10">
-        <h3 className="font-bold text-[1.3rem] transition-all duration-300 group-hover:text-[1.8rem] shadow-2xl text-slate-200">
+        <h3 className="font-bold text-[1.3rem] transition-all duration-300 md:group-hover:text-[1.8rem] shadow-2xl text-slate-200">
           {playlist?.name}
         </h3>
-        <p className="transition-all duration-300 group-hover:text-[1.1rem]">
+        <p className="transition-all duration-300 md:group-hover:text-[1.1rem]">
           {playlist?.description}
         </p>
       </div>
