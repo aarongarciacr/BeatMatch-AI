@@ -1,10 +1,16 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchAddTracks, fetchCreatePlaylist } from "../redux/playlistSlice";
+import {
+  fetchAddTracks,
+  fetchCreatePlaylist,
+  fetchFollowPlaylist,
+} from "../redux/playlistSlice";
 import { moods, activities } from "../constants/moodAndActivities.jsx";
 import SpotifyWhiteLogo from "../assets/Spotify_Primary_Logo_RGB_White.png";
 
 const PlaylistCard3 = ({ playlist }) => {
+  console.log("playlist", playlist);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,8 +34,15 @@ const PlaylistCard3 = ({ playlist }) => {
 
   const handleSpotifyClick = async (e) => {
     e.stopPropagation();
-    if (playlist.spotifyId) {
+    if (playlist.isFollowed) {
       alert("Playlist already saved on Spotify");
+      navigate(`/playlists/${playlist.spotifyId}`);
+      return;
+    }
+
+    if (playlist.spotifyId) {
+      dispatch(fetchFollowPlaylist(playlist.spotifyId));
+      alert("Playlist saved on Spotify");
       navigate(`/playlists/${playlist.spotifyId}`);
       return;
     }
@@ -42,6 +55,7 @@ const PlaylistCard3 = ({ playlist }) => {
       if (playlistId) {
         await dispatch(fetchAddTracks(playlistId, trackUris));
       }
+      alert("Playlist saved on Spotify");
       navigate(`/playlists/${playlistId}`);
     } catch (error) {
       console.error("Error creating playlist:", error);

@@ -4,6 +4,7 @@ const GET_PLAYLIST_DETAILS = "playlists/GET_PLAYLIST_DETAILS";
 const CREATE_PLAYLIST = "playlists/CREATE_PLAYLIST";
 const UPDATE_PLAYLIST = "playlists/UPDATE_PLAYLIST";
 const DELETE_PLAYLIST_DB = "playlists/DELETE_PLAYLIST_DB";
+const FOLLOW_PLAYLIST = "playlists/FOLLOW_PLAYLIST";
 const DELETE_PLAYLIST_SPOTIFY = "playlists/DELETE_PLAYLIST_SPOTIFY";
 const GENERATE_PLAYLIST = "playlists/GENERATE_PLAYLIST";
 const SET_PAGINATION = "playlists/SET_PAGINATION";
@@ -34,6 +35,11 @@ const createPlaylist = (playlist) => ({
 const updatePlaylist = (playlist) => ({
   type: UPDATE_PLAYLIST,
   playlist,
+});
+
+const followPlaylist = (playlistId) => ({
+  type: FOLLOW_PLAYLIST,
+  playlistId,
 });
 
 const deletePlaylistDB = (playlistId) => ({
@@ -243,6 +249,17 @@ export const fetchDeletePlaylistDB = (playlistId) => async (dispatch) => {
   }
 };
 
+export const fetchFollowPlaylist = (playlistId) => async (dispatch) => {
+  const response = await fetch(`/api/playlists/${playlistId}/follow`, {
+    method: "PUT",
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    dispatch(followPlaylist(playlistId));
+  }
+};
+
 export const fetchDeletePlaylistSpotify = (playlistId) => async (dispatch) => {
   const response = await fetch(`/api/playlists/${playlistId}`, {
     method: "DELETE",
@@ -250,7 +267,7 @@ export const fetchDeletePlaylistSpotify = (playlistId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    dispatch(deletePlaylistDB(playlistId));
+    dispatch(deletePlaylistSpotify(playlistId));
   }
 };
 
@@ -318,6 +335,14 @@ const playlistReducer = (state = initialState, action) => {
         items: state.items.map((playlist) =>
           playlist.id === action.playlist.id ? action.playlist : playlist
         ),
+      };
+    case FOLLOW_PLAYLIST:
+      return {
+        ...state,
+        singlePlaylist: {
+          ...state.singlePlaylist,
+          isFollowed: true,
+        },
       };
     case DELETE_PLAYLIST_DB:
       return {
