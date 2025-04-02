@@ -2,6 +2,8 @@ import { useSelector } from "react-redux";
 import WhiteLogo from "../assets/Primary_Logo_White_CMYK.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import OpenModalButton from "./OpenModalButton/OpenModalButton";
+import LoginModal from "../component/LoginModal/LoginModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -222,17 +224,33 @@ const Navbar = () => {
             </div>
           </>
         ) : (
-          <button
-            className="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
-            onClick={handleLogin}
-          >
-            <img
-              src={WhiteLogo}
-              alt="Spotify Logo"
-              className="w-6 h-6 inline-block mr-2"
-            />
-            Login
-          </button>
+          // <button
+          //   className="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+          //   onClick={handleLogin}
+          // >
+          //   <img
+          //     src={WhiteLogo}
+          //     alt="Spotify Logo"
+          //     className="w-6 h-6 inline-block mr-2"
+          //   />
+          //   Login
+          // </button>
+          <OpenModalButton
+            modalComponent={<LoginModal />}
+            buttonText={
+              <>
+                <img
+                  src={WhiteLogo}
+                  alt="Spotify Logo"
+                  className="w-6 h-6 inline-block mr-2"
+                />
+                Login
+              </>
+            }
+            // onButtonClick={handleLogin}
+            onModalClose={() => setIsMenuOpen(false)}
+            classname="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+          />
         )}
       </div>
     </nav>
