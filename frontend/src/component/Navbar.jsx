@@ -14,6 +14,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const profileDropdownRef = useRef(null);
+  console.log("user", user);
 
   const handleLogout = async () => {
     try {

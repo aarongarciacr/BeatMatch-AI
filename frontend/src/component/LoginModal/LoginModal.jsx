@@ -1,33 +1,21 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
 // import { loginDemo } from "../../redux/authSlice";
 import SpotifyLogo from "../../assets/Primary_Logo_White_CMYK.svg";
 import "./LoginModal.css";
-import { loginDemo } from "../../redux/authSlice";
 
-function LoginModal({ navigate }) {
-  const { closeModal } = useModal();
-  const dispatch = useDispatch();
+function LoginModal() {
   const [loading, setLoading] = useState(false);
 
   // Regular Spotify login
   const handleSpotifyLogin = () => {
+    setLoading(true);
     window.location.href = "/api/auth/login";
   };
 
   // Demo user login
-  const handleDemoLogin = async () => {
+  const handleDemoLogin = () => {
     setLoading(true);
-    try {
-      await dispatch(loginDemo());
-      closeModal();
-      navigate("/discover");
-    } catch (error) {
-      console.error("Demo login failed:", error);
-    } finally {
-      setLoading(false);
-    }
+    window.location.href = "/api/auth/demo";
   };
 
   return (

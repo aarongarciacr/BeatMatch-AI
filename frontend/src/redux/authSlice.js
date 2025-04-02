@@ -2,6 +2,7 @@
 const SET_USER = "auth/SET_USER";
 const REMOVE_USER = "auth/REMOVE_USER";
 const SET_ERROR = "auth/SET_ERROR";
+export const RESET_STATE = "auth/RESET_STATE";
 
 // Action Creators
 const setUserAction = (user) => ({
@@ -16,6 +17,10 @@ const removeUser = () => ({
 const setError = (error) => ({
   type: SET_ERROR,
   error,
+});
+
+export const resetState = () => ({
+  type: RESET_STATE,
 });
 
 // Thunks
@@ -55,6 +60,7 @@ export const logoutUser = () => async (dispatch) => {
 
   if (response.ok) {
     dispatch(removeUser());
+    dispatch(resetState());
   }
 };
 

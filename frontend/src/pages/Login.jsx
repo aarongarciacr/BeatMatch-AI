@@ -5,6 +5,9 @@ import Sprint from "../assets/Sprint.svg";
 import Tune from "../assets/Tune.svg";
 import BG from "../assets/bg-img.jpg";
 import Footer1 from "../component/Footer/Footer1";
+import OpenModalButton from "../component/OpenModalButton/OpenModalButton";
+import LoginModal from "../component/LoginModal/LoginModal";
+import { useNavigate } from "react-router-dom";
 
 const Features = [
   {
@@ -31,9 +34,7 @@ const Features = [
 ];
 
 const Login = () => {
-  const handleLogin = () => {
-    window.location.href = "/api/auth/login"; // Redirects the user to Spotify login
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col h-full bg-[#111827] w-full m-auto">
@@ -59,7 +60,7 @@ const Login = () => {
             and music taste.
           </p>
 
-          <button
+          {/* <button
             className="bg-[#1ED760] text-white px-5 py-2 rounded-full font-bold flex items-center justify-center space-x-2 hover:bg-[#19b050] transition-colors"
             onClick={handleLogin}
           >
@@ -69,7 +70,22 @@ const Login = () => {
               className="w-5 h-5 inline-block"
             />
             <span>Connect with Spotify</span>
-          </button>
+          </button> */}
+          <OpenModalButton
+            modalComponent={<LoginModal navigate={navigate} />}
+            buttonText={
+              <>
+                <img
+                  src={WhiteLogo}
+                  alt="Spotify Logo"
+                  className="w-6 h-6 inline-block mr-2"
+                />
+                Connect with Spotify
+              </>
+            }
+            // onButtonClick={handleLogin}
+            classname="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+          />
         </div>
       </div>
 
@@ -88,7 +104,7 @@ const Login = () => {
             Join thousands of music lovers whe've discovered their perfect
             playlist with BeatMatch AI.
           </p>
-          <button
+          {/* <button
             className="bg-[#1ED760] text-white px-5 py-2 rounded-full font-bold flex items-center justify-center space-x-2 hover:bg-[#19b050] transition-colors"
             onClick={handleLogin}
           >
@@ -98,7 +114,22 @@ const Login = () => {
               className="w-5 h-5 inline-block"
             />
             <span>Get Started Free</span>
-          </button>
+          </button> */}
+          <OpenModalButton
+            modalComponent={<LoginModal navigate={navigate} />}
+            buttonText={
+              <>
+                <img
+                  src={WhiteLogo}
+                  alt="Spotify Logo"
+                  className="w-6 h-6 inline-block mr-2"
+                />
+                Get Started Free
+              </>
+            }
+            // onButtonClick={handleLogin}
+            classname="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+          />
         </div>
       </div>
 
