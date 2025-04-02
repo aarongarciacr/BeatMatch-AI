@@ -22,6 +22,32 @@ router.get("/", (req, res) => {
   res.send("Hello World! <a href='/api/auth/login'>Login with Spotify</a>");
 });
 
+// Add this to your backend auth routes file
+router.get("/demo", (req, res) => {
+  // Create a demo user object
+  const demoUser = {
+    id: "demo-user",
+    display_name: "Demo User",
+    email: "demo@beatmatch.ai",
+    images: [
+      {
+        url: "https://ui-avatars.com/api/?name=Demo+User&background=1DB954&color=fff&size=200",
+      },
+    ],
+    country: "US",
+    product: "premium",
+    isDemo: true,
+  };
+
+  // Set session data
+  req.session.user = demoUser;
+  req.session.is_demo = true;
+  req.session.access_token = "demo-token";
+
+  // Return the demo user object
+  return res.json(demoUser);
+});
+
 router.get("/login", (req, res) => {
   const scope =
     "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-recently-played user-top-read user-follow-read user-follow-modify";

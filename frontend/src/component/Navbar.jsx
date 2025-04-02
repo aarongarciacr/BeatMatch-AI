@@ -1,24 +1,27 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import WhiteLogo from "../assets/Primary_Logo_White_CMYK.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import OpenModalButton from "./OpenModalButton/OpenModalButton";
 import LoginModal from "../component/LoginModal/LoginModal";
+import { logoutUser } from "../redux/authSlice";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const user = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const profileDropdownRef = useRef(null);
 
-  const handleLogin = () => {
-    window.location.href = "/api/auth/login"; // Redirects the user to Spotify login
-  };
-
-  const handleLogout = () => {
-    window.location.href = "/api/auth/logout"; // Redirects the user to logout endpoint
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser());
+      navigate("/"); // Redirect to home page after logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const handleLogo = () => navigate("/");
@@ -236,7 +239,7 @@ const Navbar = () => {
           //   Login
           // </button>
           <OpenModalButton
-            modalComponent={<LoginModal />}
+            modalComponent={<LoginModal navigate={navigate} />}
             buttonText={
               <>
                 <img

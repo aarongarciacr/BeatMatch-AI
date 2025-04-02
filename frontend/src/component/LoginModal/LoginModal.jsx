@@ -4,8 +4,9 @@ import { useModal } from "../../context/Modal";
 // import { loginDemo } from "../../redux/authSlice";
 import SpotifyLogo from "../../assets/Primary_Logo_White_CMYK.svg";
 import "./LoginModal.css";
+import { loginDemo } from "../../redux/authSlice";
 
-function LoginModal() {
+function LoginModal({ navigate }) {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -19,8 +20,9 @@ function LoginModal() {
   const handleDemoLogin = async () => {
     setLoading(true);
     try {
-      //   await dispatch(loginDemo());
+      await dispatch(loginDemo());
       closeModal();
+      navigate("/discover");
     } catch (error) {
       console.error("Demo login failed:", error);
     } finally {

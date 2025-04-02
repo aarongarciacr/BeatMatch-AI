@@ -19,6 +19,19 @@ const setError = (error) => ({
 });
 
 // Thunks
+
+export const loginDemo = () => async (dispatch) => {
+  const response = await fetch("/api/auth/demo", {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const user = await response.json();
+    dispatch(setUserAction(user));
+    return user;
+  }
+};
+
 export const fetchUserProfile = () => async (dispatch) => {
   try {
     const response = await fetch("/api/auth/user", {
@@ -49,6 +62,7 @@ export const logoutUser = () => async (dispatch) => {
 const initialStateReducer = {
   user: null,
   isAuthenticated: false,
+  isDemo: false,
   error: null,
 };
 
@@ -60,6 +74,7 @@ const authReducer = (state = initialStateReducer, action) => {
         ...state,
         user: action.user,
         isAuthenticated: true,
+        isDemo: action.user?.isDemo || false,
         error: null,
       };
     case REMOVE_USER:
@@ -67,6 +82,7 @@ const authReducer = (state = initialStateReducer, action) => {
         ...state,
         user: null,
         isAuthenticated: false,
+        isDemo: false,
         error: null,
       };
     case SET_ERROR:
