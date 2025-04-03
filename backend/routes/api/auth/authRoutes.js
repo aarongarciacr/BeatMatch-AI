@@ -22,6 +22,67 @@ router.get("/", (req, res) => {
   res.send("Hello World! <a href='/api/auth/login'>Login with Spotify</a>");
 });
 
+// Add this to your backend auth routes file
+router.get("/demo", async (req, res) => {
+  try {
+    const refresh_token = process.env.DEMO_REFRESH_TOKEN;
+
+    if (!refresh_token) {
+      return res.status(500).send("Demo user not configured");
+    }
+
+    const tokenResponse = await axios.post(
+      TOKEN_URL,
+      new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: refresh_token,
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    const { access_token, expires_in } = tokenResponse.data;
+    const expiresAt = Date.now() + expires_in * 1000;
+
+    req.session.access_token = access_token;
+    req.session.refresh_token = refresh_token;
+    req.session.expires_at = expiresAt;
+    req.session.is_demo = true;
+
+    const userProfile = await axios.get(`${API_BASE_URL}/me`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    // Update or create demo user
+    const demoUser = await User.updateOne(
+      { spotifyId: userProfile.data.id },
+      {
+        spotifyId: userProfile.data.id,
+        email: userProfile.data.email,
+        display_name: userProfile.data.display_name,
+        country: userProfile.data.country,
+        accessToken: access_token,
+        refreshToken: refresh_token,
+        expiresAt: expiresAt,
+        lastLogin: new Date(),
+      },
+      { upsert: true }
+    );
+    // Redirect with success parameter
+    return res.redirect(FRONTEND_URI);
+  } catch (error) {
+    console.error("Demo login error:", error);
+    return res.status(500).send("Demo login failed");
+  }
+});
+
 router.get("/login", (req, res) => {
   const scope =
     "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-recently-played user-top-read user-follow-read user-follow-modify";
@@ -92,9 +153,9 @@ router.get("/callback", async (req, res) => {
       },
       { upsert: true }
     );
-    console.log("front end uri", FRONTEND_URI);
     // Redirect with success parameter
     return res.redirect(FRONTEND_URI);
+    // return res.status(200);
   } catch (error) {
     console.error("Auth callback error:", error);
     return res.redirect("http://localhost:5173/?loginSuccess=false");

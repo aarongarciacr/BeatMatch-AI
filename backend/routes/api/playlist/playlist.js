@@ -62,7 +62,7 @@ router.post("/", reqAuth, async (req, res) => {
 
     const aiPlaylist = await Playlist.findOneAndUpdate(
       { name: name, description: description, userId: req.user.spotifyId },
-      { spotifyId: playlistId },
+      { spotifyId: playlistId, isFollowed: true },
       { new: true }
     );
 
@@ -217,7 +217,6 @@ router.post("/generate", reqAuth, async (req, res) => {
       });
     }
 
-    //***TODOOO***  ADD IMAGE TO TRACKS TO SET THE PLAYLIST IMAGE TO THE FIRST TRACK'S IMAGE*/ */
     // Create new playlist in database
     const playlist = new Playlist({
       spotifyId: null,
@@ -227,6 +226,7 @@ router.post("/generate", reqAuth, async (req, res) => {
       mood: mood,
       activity: activity,
       length: length,
+      isFollowed: false,
       image: tracks[0].image,
       tracks: tracks,
     });
@@ -326,7 +326,36 @@ router.delete("/db/:playlistId", reqAuth, async (req, res) => {
   }
 });
 
-//Delete Playlist from Spotify
+//Follow Playlist on Spotify
+router.put("/:playlistId/follow", reqAuth, async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+    const headers = {
+      Authorization: `Bearer ${req.session.access_token}`,
+    };
+
+    const playlistResponse = await axios.put(
+      `${API_BASE_URL}/playlists/${playlistId}/followers`,
+      {},
+      { headers }
+    );
+
+    const playlistOnDB = await Playlist.updateOne(
+      { spotifyId: playlistId },
+      { isFollowed: true }
+    );
+
+    return res.json({
+      message: "Playlist followed successfully",
+      playlist: playlistResponse.data,
+    });
+  } catch (error) {
+    console.error("Error in follow playlist on Spotify:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+//Delete Playlist from Spotify (Unfollow Playlist)
 router.delete("/:playlistId", reqAuth, async (req, res) => {
   try {
     const playlistId = req.params.playlistId;
@@ -337,6 +366,11 @@ router.delete("/:playlistId", reqAuth, async (req, res) => {
     const playlistResponse = await axios.delete(
       `${API_BASE_URL}/playlists/${playlistId}/followers`,
       { headers }
+    );
+
+    const playlistOnDB = await Playlist.updateOne(
+      { spotifyId: playlistId },
+      { isFollowed: false }
     );
 
     return res.json({
@@ -451,7 +485,6 @@ router.get("/db/:playlistId", reqAuth, async (req, res) => {
   }
 });
 
-// Get playlists' tracks on Spotify
 // Get playlists' tracks on Spotify using "Get Several Tracks"
 router.get("/db/:playlistId/tracks", reqAuth, async (req, res) => {
   try {

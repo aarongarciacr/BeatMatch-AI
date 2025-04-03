@@ -7,14 +7,12 @@ import {
 } from "../redux/playlistSlice";
 
 const PlaylistCard = ({ playlist }) => {
-  console.log("playlist", playlist);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handlePlaylistClick = () => {
-    if (playlist.href) {
-      navigate(`/playlists/${playlist.id}`);
+    if (playlist.id || playlist.spotifyId) {
+      navigate(`/playlists/${playlist.id || playlist.spotifyId}`);
     } else {
       navigate(`/playlists/BM/${playlist._id}`);
     }

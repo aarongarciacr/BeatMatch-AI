@@ -2,6 +2,7 @@
 const SET_USER = "auth/SET_USER";
 const REMOVE_USER = "auth/REMOVE_USER";
 const SET_ERROR = "auth/SET_ERROR";
+export const RESET_STATE = "auth/RESET_STATE";
 
 // Action Creators
 const setUserAction = (user) => ({
@@ -18,7 +19,24 @@ const setError = (error) => ({
   error,
 });
 
+export const resetState = () => ({
+  type: RESET_STATE,
+});
+
 // Thunks
+
+export const loginDemo = () => async (dispatch) => {
+  const response = await fetch("/api/auth/demo", {
+    credentials: "include",
+  });
+
+  if (response.ok) {
+    const user = await response.json();
+    dispatch(setUserAction(user));
+    return user;
+  }
+};
+
 export const fetchUserProfile = () => async (dispatch) => {
   try {
     const response = await fetch("/api/auth/user", {
@@ -42,6 +60,7 @@ export const logoutUser = () => async (dispatch) => {
 
   if (response.ok) {
     dispatch(removeUser());
+    dispatch(resetState());
   }
 };
 
@@ -49,6 +68,7 @@ export const logoutUser = () => async (dispatch) => {
 const initialStateReducer = {
   user: null,
   isAuthenticated: false,
+  isDemo: false,
   error: null,
 };
 
@@ -60,6 +80,7 @@ const authReducer = (state = initialStateReducer, action) => {
         ...state,
         user: action.user,
         isAuthenticated: true,
+        isDemo: action.user?.isDemo || false,
         error: null,
       };
     case REMOVE_USER:
@@ -67,6 +88,7 @@ const authReducer = (state = initialStateReducer, action) => {
         ...state,
         user: null,
         isAuthenticated: false,
+        isDemo: false,
         error: null,
       };
     case SET_ERROR:

@@ -1,22 +1,27 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import WhiteLogo from "../assets/Primary_Logo_White_CMYK.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-
+import OpenModalButton from "./OpenModalButton/OpenModalButton";
+import LoginModal from "../component/LoginModal/LoginModal";
+import { logoutUser } from "../redux/authSlice";
+import beatMatchLogo from "../assets/beatmatch_logo.png";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const user = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const profileDropdownRef = useRef(null);
 
-  const handleLogin = () => {
-    window.location.href = "/api/auth/login"; // Redirects the user to Spotify login
-  };
-
-  const handleLogout = () => {
-    window.location.href = "/api/auth/logout"; // Redirects the user to logout endpoint
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser());
+      navigate("/"); // Redirect to home page after logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const handleLogo = () => navigate("/");
@@ -55,9 +60,21 @@ const Navbar = () => {
   return (
     <nav className="navbar h-[80px] w-dvw bg-black text-slate-200 fixed top-0 z-50 border-b-2 border-neutral-800">
       <div className="container px-4 flex h-full flex-row justify-between items-center m-auto">
-        <h1 className="text-2xl cursor-pointer" onClick={handleLogo}>
-          BeatMatch AI
-        </h1>
+        {/* Logo */}
+        <div
+          className="flex items-center cursor-pointer gap-2"
+          onClick={handleLogo}
+        >
+          <img
+            src={beatMatchLogo}
+            alt="BeatMatch AI Logo"
+            className="h-[2.5em] cursor-pointer"
+            onClick={handleLogo}
+          />
+          <h1 className="text-2xl cursor-pointer" onClick={handleLogo}>
+            BeatMatch AI
+          </h1>
+        </div>
         {user ? (
           <>
             {/* Mobile Menu Button */}
@@ -222,17 +239,33 @@ const Navbar = () => {
             </div>
           </>
         ) : (
-          <button
-            className="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
-            onClick={handleLogin}
-          >
-            <img
-              src={WhiteLogo}
-              alt="Spotify Logo"
-              className="w-6 h-6 inline-block mr-2"
-            />
-            Login
-          </button>
+          // <button
+          //   className="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+          //   onClick={handleLogin}
+          // >
+          //   <img
+          //     src={WhiteLogo}
+          //     alt="Spotify Logo"
+          //     className="w-6 h-6 inline-block mr-2"
+          //   />
+          //   Login
+          // </button>
+          <OpenModalButton
+            modalComponent={<LoginModal navigate={navigate} />}
+            buttonText={
+              <>
+                <img
+                  src={WhiteLogo}
+                  alt="Spotify Logo"
+                  className="w-6 h-6 inline-block mr-2"
+                />
+                Login
+              </>
+            }
+            // onButtonClick={handleLogin}
+            onModalClose={() => setIsMenuOpen(false)}
+            classname="bg-[#1ED760] text-white px-6 py-2 rounded-full font-bold"
+          />
         )}
       </div>
     </nav>
