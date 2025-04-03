@@ -164,13 +164,6 @@ For users who want to try the application without connecting their personal Spot
 
 ---
 
-## 📸 Screenshots
-
-- 🔐 Login Screen
-- 📊 Dashboard/Playlist Creation
-- 🔍 Discover Page
-- 📑 Playlist Details
-- 🎵 Generated Playlist View
 
 ---
 
