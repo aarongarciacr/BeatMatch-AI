@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import OpenModalButton from "./OpenModalButton/OpenModalButton";
 import LoginModal from "../component/LoginModal/LoginModal";
 import { logoutUser } from "../redux/authSlice";
-
+import beatMatchLogo from "../assets/beatmatch_logo.png";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
@@ -61,9 +61,21 @@ const Navbar = () => {
   return (
     <nav className="navbar h-[80px] w-dvw bg-black text-slate-200 fixed top-0 z-50 border-b-2 border-neutral-800">
       <div className="container px-4 flex h-full flex-row justify-between items-center m-auto">
-        <h1 className="text-2xl cursor-pointer" onClick={handleLogo}>
-          BeatMatch AI
-        </h1>
+        {/* Logo */}
+        <div
+          className="flex items-center cursor-pointer gap-2"
+          onClick={handleLogo}
+        >
+          <img
+            src={beatMatchLogo}
+            alt="BeatMatch AI Logo"
+            className="h-[2.5em] cursor-pointer"
+            onClick={handleLogo}
+          />
+          <h1 className="text-2xl cursor-pointer" onClick={handleLogo}>
+            BeatMatch AI
+          </h1>
+        </div>
         {user ? (
           <>
             {/* Mobile Menu Button */}

@@ -52,9 +52,9 @@ function LoginModal() {
       </div>
 
       <div className="login-modal-footer">
-        <p>
-          Demo users can browse and generate playlists, but cannot save to
-          Spotify
+        <p className="demo-note">
+          Demo uses a shared Spotify account. Any playlists created will be
+          visible to all demo users.
         </p>
       </div>
     </div>
