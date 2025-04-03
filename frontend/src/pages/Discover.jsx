@@ -192,7 +192,6 @@ const Discover = () => {
             Here's what we've curated for you today.
           </p>
         </div>
-
         {/* Discover Playlists by Mood*/}
         <div className="flex flex-col gap-10 container m-auto pb-10">
           <h2 className="text-3xl">Based on Your Mood</h2>
