@@ -25,9 +25,31 @@
     display: grid; /* To maintain the layout */
     grid-template-rows: auto 1fr; /* Adjust rows for your form */
     height: auto;
-    width: 40%;
+    width: 90%; /* Default width for mobile devices */
+    max-width: 500px; /* Maximum width for larger screens */
     border-radius: 20px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
     padding: 20px; /* Optional for spacing inside */
     justify-items: center;
+    overflow-y: auto; /* Enable scrolling for content that might overflow */
+    max-height: 90vh; /* Prevent modal from being taller than viewport */
+}
+
+/* Media queries for responsive design */
+@media screen and (min-width: 768px) {
+    #modal-content {
+        width: 70%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #modal-content {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #modal-content {
+        width: 40%;
+    }
 }
