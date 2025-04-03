@@ -153,8 +153,6 @@ const Discover = () => {
   }
 
   useEffect(() => {
-    document.title = "Discover - Spotify";
-
     try {
       dispatch(fetchGetDiscoverPlaylists());
       dispatch(fetchGetAIPlaylists({ page: 1, limit: 4 }));
