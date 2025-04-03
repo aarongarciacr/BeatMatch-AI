@@ -9,8 +9,6 @@ import { moods, activities } from "../constants/moodAndActivities.jsx";
 import SpotifyWhiteLogo from "../assets/Spotify_Primary_Logo_RGB_White.png";
 
 const PlaylistCard3 = ({ playlist }) => {
-  console.log("playlist", playlist);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

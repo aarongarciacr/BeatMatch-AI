@@ -7,8 +7,6 @@ import {
 } from "../redux/playlistSlice";
 
 const PlaylistCard = ({ playlist }) => {
-  console.log("playlist", playlist);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
